@@ -1,0 +1,782 @@
+[
+  {
+    "album": {
+      "album_type": "single",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/0bAsR2unSRpn6BQPEnNlZm"
+          },
+          "href": "https://api.spotify.com/v1/artists/0bAsR2unSRpn6BQPEnNlZm",
+          "id": "0bAsR2unSRpn6BQPEnNlZm",
+          "name": "Aimer",
+          "type": "artist",
+          "uri": "spotify:artist:0bAsR2unSRpn6BQPEnNlZm"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/2er0Xi4lRpqY20aCvDnw3p"
+      },
+      "href": "https://api.spotify.com/v1/albums/2er0Xi4lRpqY20aCvDnw3p",
+      "id": "2er0Xi4lRpqY20aCvDnw3p",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b27338d3d158c23a4d7c02fbb6ff",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e0238d3d158c23a4d7c02fbb6ff",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d0000485138d3d158c23a4d7c02fbb6ff",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "Sign",
+      "release_date": "2024-07-08",
+      "release_date_precision": "day",
+      "total_tracks": 1,
+      "type": "album",
+      "uri": "spotify:album:2er0Xi4lRpqY20aCvDnw3p"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0bAsR2unSRpn6BQPEnNlZm"
+        },
+        "href": "https://api.spotify.com/v1/artists/0bAsR2unSRpn6BQPEnNlZm",
+        "id": "0bAsR2unSRpn6BQPEnNlZm",
+        "name": "Aimer",
+        "type": "artist",
+        "uri": "spotify:artist:0bAsR2unSRpn6BQPEnNlZm"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 215490,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "JPU902400738"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/0d0K90wpp2CDfy7923mZ00"
+    },
+    "href": "https://api.spotify.com/v1/tracks/0d0K90wpp2CDfy7923mZ00",
+    "id": "0d0K90wpp2CDfy7923mZ00",
+    "is_local": false,
+    "is_playable": true,
+    "name": "Sign",
+    "popularity": 56,
+    "preview_url": "https://p.scdn.co/mp3-preview/f295831e0b69254934a876b68104374b7ded814c?cid=00bd6d28c0b846cbba723c270d3fef7d",
+    "track_number": 1,
+    "type": "track",
+    "uri": "spotify:track:0d0K90wpp2CDfy7923mZ00"
+  },
+  {
+    "album": {
+      "album_type": "single",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/3w2HqkKa6upwuXEULtGvnY"
+          },
+          "href": "https://api.spotify.com/v1/artists/3w2HqkKa6upwuXEULtGvnY",
+          "id": "3w2HqkKa6upwuXEULtGvnY",
+          "name": "FLOW",
+          "type": "artist",
+          "uri": "spotify:artist:3w2HqkKa6upwuXEULtGvnY"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/7ojJXLvVK3m1q2qv4aylJA"
+      },
+      "href": "https://api.spotify.com/v1/albums/7ojJXLvVK3m1q2qv4aylJA",
+      "id": "7ojJXLvVK3m1q2qv4aylJA",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b2737d2f5d89e1a68d1430d3adaf",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e027d2f5d89e1a68d1430d3adaf",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d000048517d2f5d89e1a68d1430d3adaf",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "Sign",
+      "release_date": "2010",
+      "release_date_precision": "year",
+      "total_tracks": 5,
+      "type": "album",
+      "uri": "spotify:album:7ojJXLvVK3m1q2qv4aylJA"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/3w2HqkKa6upwuXEULtGvnY"
+        },
+        "href": "https://api.spotify.com/v1/artists/3w2HqkKa6upwuXEULtGvnY",
+        "id": "3w2HqkKa6upwuXEULtGvnY",
+        "name": "FLOW",
+        "type": "artist",
+        "uri": "spotify:artist:3w2HqkKa6upwuXEULtGvnY"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 238066,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "JPKS00902021"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/5SLnzO4lPHDvVGXdQczzX1"
+    },
+    "href": "https://api.spotify.com/v1/tracks/5SLnzO4lPHDvVGXdQczzX1",
+    "id": "5SLnzO4lPHDvVGXdQczzX1",
+    "is_local": false,
+    "is_playable": true,
+    "name": "Sign",
+    "popularity": 33,
+    "preview_url": "https://p.scdn.co/mp3-preview/49d323bba0d233556cde58063675cf260d6e8c11?cid=00bd6d28c0b846cbba723c270d3fef7d",
+    "track_number": 1,
+    "type": "track",
+    "uri": "spotify:track:5SLnzO4lPHDvVGXdQczzX1"
+  },
+  {
+    "album": {
+      "album_type": "album",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/0M6zW75xJfkFNrxxawEdLz"
+          },
+          "href": "https://api.spotify.com/v1/artists/0M6zW75xJfkFNrxxawEdLz",
+          "id": "0M6zW75xJfkFNrxxawEdLz",
+          "name": "Uchida Aya",
+          "type": "artist",
+          "uri": "spotify:artist:0M6zW75xJfkFNrxxawEdLz"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/4sZTfQPwOERRFZJ75QZgsO"
+      },
+      "href": "https://api.spotify.com/v1/albums/4sZTfQPwOERRFZJ75QZgsO",
+      "id": "4sZTfQPwOERRFZJ75QZgsO",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b2737fa3dc4cdf676739a48eea33",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e027fa3dc4cdf676739a48eea33",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d000048517fa3dc4cdf676739a48eea33",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "Ephemera",
+      "release_date": "2019-11-27",
+      "release_date_precision": "day",
+      "total_tracks": 11,
+      "type": "album",
+      "uri": "spotify:album:4sZTfQPwOERRFZJ75QZgsO"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0M6zW75xJfkFNrxxawEdLz"
+        },
+        "href": "https://api.spotify.com/v1/artists/0M6zW75xJfkFNrxxawEdLz",
+        "id": "0M6zW75xJfkFNrxxawEdLz",
+        "name": "Uchida Aya",
+        "type": "artist",
+        "uri": "spotify:artist:0M6zW75xJfkFNrxxawEdLz"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 233960,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "JPS231900011"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/3pUeCDzHNM0yHN0FoPEadN"
+    },
+    "href": "https://api.spotify.com/v1/tracks/3pUeCDzHNM0yHN0FoPEadN",
+    "id": "3pUeCDzHNM0yHN0FoPEadN",
+    "is_local": false,
+    "is_playable": true,
+    "name": "Sign",
+    "popularity": 42,
+    "preview_url": "https://p.scdn.co/mp3-preview/156e5add3a24e99e0a1cd2379dc2a40a49d50356?cid=00bd6d28c0b846cbba723c270d3fef7d",
+    "track_number": 9,
+    "type": "track",
+    "uri": "spotify:track:3pUeCDzHNM0yHN0FoPEadN"
+  },
+  {
+    "album": {
+      "album_type": "single",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/0M6zW75xJfkFNrxxawEdLz"
+          },
+          "href": "https://api.spotify.com/v1/artists/0M6zW75xJfkFNrxxawEdLz",
+          "id": "0M6zW75xJfkFNrxxawEdLz",
+          "name": "Uchida Aya",
+          "type": "artist",
+          "uri": "spotify:artist:0M6zW75xJfkFNrxxawEdLz"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/64UQxZ9zi98ZXvB8YksePw"
+      },
+      "href": "https://api.spotify.com/v1/albums/64UQxZ9zi98ZXvB8YksePw",
+      "id": "64UQxZ9zi98ZXvB8YksePw",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b273b00c7fdbf658e21ab97a7dff",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e02b00c7fdbf658e21ab97a7dff",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d00004851b00c7fdbf658e21ab97a7dff",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "Sign / Candy Flavor (TVアニメ「五等分の花嫁」エンディングテーマ)",
+      "release_date": "2019-03-06",
+      "release_date_precision": "day",
+      "total_tracks": 4,
+      "type": "album",
+      "uri": "spotify:album:64UQxZ9zi98ZXvB8YksePw"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/0M6zW75xJfkFNrxxawEdLz"
+        },
+        "href": "https://api.spotify.com/v1/artists/0M6zW75xJfkFNrxxawEdLz",
+        "id": "0M6zW75xJfkFNrxxawEdLz",
+        "name": "Uchida Aya",
+        "type": "artist",
+        "uri": "spotify:artist:0M6zW75xJfkFNrxxawEdLz"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 236040,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "JPS231900011"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/6e2AA1GWbvFGgE9G78mcny"
+    },
+    "href": "https://api.spotify.com/v1/tracks/6e2AA1GWbvFGgE9G78mcny",
+    "id": "6e2AA1GWbvFGgE9G78mcny",
+    "is_local": false,
+    "is_playable": true,
+    "name": "Sign",
+    "popularity": 37,
+    "preview_url": "https://p.scdn.co/mp3-preview/40f7e226ff56f83715fe4fbd8982ba162130ebb6?cid=00bd6d28c0b846cbba723c270d3fef7d",
+    "track_number": 1,
+    "type": "track",
+    "uri": "spotify:track:6e2AA1GWbvFGgE9G78mcny"
+  },
+  {
+    "album": {
+      "album_type": "album",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/1Q50Y9cXWlkNEG6gJfUP1e"
+          },
+          "href": "https://api.spotify.com/v1/artists/1Q50Y9cXWlkNEG6gJfUP1e",
+          "id": "1Q50Y9cXWlkNEG6gJfUP1e",
+          "name": "DEAMN",
+          "type": "artist",
+          "uri": "spotify:artist:1Q50Y9cXWlkNEG6gJfUP1e"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/7IlO51zPDE9f2u1yWrwI00"
+      },
+      "href": "https://api.spotify.com/v1/albums/7IlO51zPDE9f2u1yWrwI00",
+      "id": "7IlO51zPDE9f2u1yWrwI00",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b2738ded8a098601168e3842937c",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e028ded8a098601168e3842937c",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d000048518ded8a098601168e3842937c",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "Save Me (Deluxe)",
+      "release_date": "2019-02-13",
+      "release_date_precision": "day",
+      "total_tracks": 13,
+      "type": "album",
+      "uri": "spotify:album:7IlO51zPDE9f2u1yWrwI00"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/1Q50Y9cXWlkNEG6gJfUP1e"
+        },
+        "href": "https://api.spotify.com/v1/artists/1Q50Y9cXWlkNEG6gJfUP1e",
+        "id": "1Q50Y9cXWlkNEG6gJfUP1e",
+        "name": "DEAMN",
+        "type": "artist",
+        "uri": "spotify:artist:1Q50Y9cXWlkNEG6gJfUP1e"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 191559,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "SE3OH1628784"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/24rMRUGKmXzQ4Np36D8RuV"
+    },
+    "href": "https://api.spotify.com/v1/tracks/24rMRUGKmXzQ4Np36D8RuV",
+    "id": "24rMRUGKmXzQ4Np36D8RuV",
+    "is_local": false,
+    "is_playable": true,
+    "name": "Sign",
+    "popularity": 46,
+    "preview_url": "https://p.scdn.co/mp3-preview/61e5e104d2718045d66ed98897a0efe7fe57682d?cid=00bd6d28c0b846cbba723c270d3fef7d",
+    "track_number": 6,
+    "type": "track",
+    "uri": "spotify:track:24rMRUGKmXzQ4Np36D8RuV"
+  },
+  {
+    "album": {
+      "album_type": "album",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/4iBwchw0U0GZv5RfVYSMxN"
+          },
+          "href": "https://api.spotify.com/v1/artists/4iBwchw0U0GZv5RfVYSMxN",
+          "id": "4iBwchw0U0GZv5RfVYSMxN",
+          "name": "Anyma",
+          "type": "artist",
+          "uri": "spotify:artist:4iBwchw0U0GZv5RfVYSMxN"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/7rCb8j8kaVvoKE44Dxf21y"
+      },
+      "href": "https://api.spotify.com/v1/albums/7rCb8j8kaVvoKE44Dxf21y",
+      "id": "7rCb8j8kaVvoKE44Dxf21y",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b2732f952feea610a910c7daf561",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e022f952feea610a910c7daf561",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d000048512f952feea610a910c7daf561",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "Genesys",
+      "release_date": "2023-08-11",
+      "release_date_precision": "day",
+      "total_tracks": 14,
+      "type": "album",
+      "uri": "spotify:album:7rCb8j8kaVvoKE44Dxf21y"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/4iBwchw0U0GZv5RfVYSMxN"
+        },
+        "href": "https://api.spotify.com/v1/artists/4iBwchw0U0GZv5RfVYSMxN",
+        "id": "4iBwchw0U0GZv5RfVYSMxN",
+        "name": "Anyma",
+        "type": "artist",
+        "uri": "spotify:artist:4iBwchw0U0GZv5RfVYSMxN"
+      },
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/240wlM8vDrf6S4zCyzGj2W"
+        },
+        "href": "https://api.spotify.com/v1/artists/240wlM8vDrf6S4zCyzGj2W",
+        "id": "240wlM8vDrf6S4zCyzGj2W",
+        "name": "CamelPhat",
+        "type": "artist",
+        "uri": "spotify:artist:240wlM8vDrf6S4zCyzGj2W"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 213495,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "DEEC33500811"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/58kUEj9sd9Z2XIPh3BhJRR"
+    },
+    "href": "https://api.spotify.com/v1/tracks/58kUEj9sd9Z2XIPh3BhJRR",
+    "id": "58kUEj9sd9Z2XIPh3BhJRR",
+    "is_local": false,
+    "is_playable": true,
+    "name": "The Sign (with CamelPhat)",
+    "popularity": 61,
+    "preview_url": null,
+    "track_number": 11,
+    "type": "track",
+    "uri": "spotify:track:58kUEj9sd9Z2XIPh3BhJRR"
+  },
+  {
+    "album": {
+      "album_type": "single",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/7n2Ycct7Beij7Dj7meI4X0"
+          },
+          "href": "https://api.spotify.com/v1/artists/7n2Ycct7Beij7Dj7meI4X0",
+          "id": "7n2Ycct7Beij7Dj7meI4X0",
+          "name": "TWICE",
+          "type": "artist",
+          "uri": "spotify:artist:7n2Ycct7Beij7Dj7meI4X0"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/28PwDunFAR71toOCTYRvkf"
+      },
+      "href": "https://api.spotify.com/v1/albums/28PwDunFAR71toOCTYRvkf",
+      "id": "28PwDunFAR71toOCTYRvkf",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b273d07e49e3e5a8e79903713354",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e02d07e49e3e5a8e79903713354",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d00004851d07e49e3e5a8e79903713354",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "SIGNAL",
+      "release_date": "2017-05-15",
+      "release_date_precision": "day",
+      "total_tracks": 6,
+      "type": "album",
+      "uri": "spotify:album:28PwDunFAR71toOCTYRvkf"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/7n2Ycct7Beij7Dj7meI4X0"
+        },
+        "href": "https://api.spotify.com/v1/artists/7n2Ycct7Beij7Dj7meI4X0",
+        "id": "7n2Ycct7Beij7Dj7meI4X0",
+        "name": "TWICE",
+        "type": "artist",
+        "uri": "spotify:artist:7n2Ycct7Beij7Dj7meI4X0"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 196680,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "US5TA1700042"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/15rX80MpEJ2OqW3dPunQvI"
+    },
+    "href": "https://api.spotify.com/v1/tracks/15rX80MpEJ2OqW3dPunQvI",
+    "id": "15rX80MpEJ2OqW3dPunQvI",
+    "is_local": false,
+    "is_playable": true,
+    "name": "Signal",
+    "popularity": 62,
+    "preview_url": "https://p.scdn.co/mp3-preview/a3fb62430986525bc82ebcd681cbcca4e8dae0f7?cid=00bd6d28c0b846cbba723c270d3fef7d",
+    "track_number": 1,
+    "type": "track",
+    "uri": "spotify:track:15rX80MpEJ2OqW3dPunQvI"
+  },
+  {
+    "album": {
+      "album_type": "album",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/5ksRONqssB7BR161NTtJAm"
+          },
+          "href": "https://api.spotify.com/v1/artists/5ksRONqssB7BR161NTtJAm",
+          "id": "5ksRONqssB7BR161NTtJAm",
+          "name": "Ace of Base",
+          "type": "artist",
+          "uri": "spotify:artist:5ksRONqssB7BR161NTtJAm"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/5UwIyIyFzkM7wKeGtRJPgB"
+      },
+      "href": "https://api.spotify.com/v1/albums/5UwIyIyFzkM7wKeGtRJPgB",
+      "id": "5UwIyIyFzkM7wKeGtRJPgB",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b273fda5556cb6981c3113df6175",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e02fda5556cb6981c3113df6175",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d00004851fda5556cb6981c3113df6175",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "The Sign",
+      "release_date": "1993-12-24",
+      "release_date_precision": "day",
+      "total_tracks": 13,
+      "type": "album",
+      "uri": "spotify:album:5UwIyIyFzkM7wKeGtRJPgB"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/5ksRONqssB7BR161NTtJAm"
+        },
+        "href": "https://api.spotify.com/v1/artists/5ksRONqssB7BR161NTtJAm",
+        "id": "5ksRONqssB7BR161NTtJAm",
+        "name": "Ace of Base",
+        "type": "artist",
+        "uri": "spotify:artist:5ksRONqssB7BR161NTtJAm"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 211213,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "SEVJH0803401"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/6kWJvPfC4DgUpRsXKNa9z9"
+    },
+    "href": "https://api.spotify.com/v1/tracks/6kWJvPfC4DgUpRsXKNa9z9",
+    "id": "6kWJvPfC4DgUpRsXKNa9z9",
+    "is_local": false,
+    "is_playable": true,
+    "name": "All That She Wants",
+    "popularity": 76,
+    "preview_url": "https://p.scdn.co/mp3-preview/eef43d18f73d83ff358852d874dd564f55e86932?cid=00bd6d28c0b846cbba723c270d3fef7d",
+    "track_number": 1,
+    "type": "track",
+    "uri": "spotify:track:6kWJvPfC4DgUpRsXKNa9z9"
+  },
+  {
+    "album": {
+      "album_type": "album",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/6RGxLsQUoGk5PLyMVwb3yE"
+          },
+          "href": "https://api.spotify.com/v1/artists/6RGxLsQUoGk5PLyMVwb3yE",
+          "id": "6RGxLsQUoGk5PLyMVwb3yE",
+          "name": "Sananda Maitreya",
+          "type": "artist",
+          "uri": "spotify:artist:6RGxLsQUoGk5PLyMVwb3yE"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/0nw38yniBfbluS93FdYcbE"
+      },
+      "href": "https://api.spotify.com/v1/albums/0nw38yniBfbluS93FdYcbE",
+      "id": "0nw38yniBfbluS93FdYcbE",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b273e4297423c8f4d8adfd3b7f12",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e02e4297423c8f4d8adfd3b7f12",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d00004851e4297423c8f4d8adfd3b7f12",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "Introducing The Hardline According To Sananda Maitreya",
+      "release_date": "1987-07-06",
+      "release_date_precision": "day",
+      "total_tracks": 11,
+      "type": "album",
+      "uri": "spotify:album:0nw38yniBfbluS93FdYcbE"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/6RGxLsQUoGk5PLyMVwb3yE"
+        },
+        "href": "https://api.spotify.com/v1/artists/6RGxLsQUoGk5PLyMVwb3yE",
+        "id": "6RGxLsQUoGk5PLyMVwb3yE",
+        "name": "Sananda Maitreya",
+        "type": "artist",
+        "uri": "spotify:artist:6RGxLsQUoGk5PLyMVwb3yE"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 276533,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "GBBBN8700004"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/3lIpkjFnRxJ6Uvm8DgtgfV"
+    },
+    "href": "https://api.spotify.com/v1/tracks/3lIpkjFnRxJ6Uvm8DgtgfV",
+    "id": "3lIpkjFnRxJ6Uvm8DgtgfV",
+    "is_local": false,
+    "is_playable": true,
+    "name": "Sign Your Name",
+    "popularity": 58,
+    "preview_url": "https://p.scdn.co/mp3-preview/3120f1bc94ef79bf8c89ba6569315ef957f93038?cid=00bd6d28c0b846cbba723c270d3fef7d",
+    "track_number": 9,
+    "type": "track",
+    "uri": "spotify:track:3lIpkjFnRxJ6Uvm8DgtgfV"
+  },
+  {
+    "album": {
+      "album_type": "single",
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4"
+          },
+          "href": "https://api.spotify.com/v1/artists/3TVXtAsR1Inumwj472S9r4",
+          "id": "3TVXtAsR1Inumwj472S9r4",
+          "name": "Drake",
+          "type": "artist",
+          "uri": "spotify:artist:3TVXtAsR1Inumwj472S9r4"
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/album/1JZxCJ86P4GUYkHj03CgDT"
+      },
+      "href": "https://api.spotify.com/v1/albums/1JZxCJ86P4GUYkHj03CgDT",
+      "id": "1JZxCJ86P4GUYkHj03CgDT",
+      "images": [
+        {
+          "height": 640,
+          "url": "https://i.scdn.co/image/ab67616d0000b273abf8d5beaed0be5438198d50",
+          "width": 640
+        },
+        {
+          "height": 300,
+          "url": "https://i.scdn.co/image/ab67616d00001e02abf8d5beaed0be5438198d50",
+          "width": 300
+        },
+        {
+          "height": 64,
+          "url": "https://i.scdn.co/image/ab67616d00004851abf8d5beaed0be5438198d50",
+          "width": 64
+        }
+      ],
+      "is_playable": true,
+      "name": "Signs",
+      "release_date": "2017-06-23",
+      "release_date_precision": "day",
+      "total_tracks": 1,
+      "type": "album",
+      "uri": "spotify:album:1JZxCJ86P4GUYkHj03CgDT"
+    },
+    "artists": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4"
+        },
+        "href": "https://api.spotify.com/v1/artists/3TVXtAsR1Inumwj472S9r4",
+        "id": "3TVXtAsR1Inumwj472S9r4",
+        "name": "Drake",
+        "type": "artist",
+        "uri": "spotify:artist:3TVXtAsR1Inumwj472S9r4"
+      }
+    ],
+    "disc_number": 1,
+    "duration_ms": 234373,
+    "explicit": false,
+    "external_ids": {
+      "isrc": "USCM51700269"
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/track/6Na5uKk5SsqZimk0hAWo8y"
+    },
+    "href": "https://api.spotify.com/v1/tracks/6Na5uKk5SsqZimk0hAWo8y",
+    "id": "6Na5uKk5SsqZimk0hAWo8y",
+    "is_local": false,
+    "is_playable": true,
+    "name": "Signs",
+    "popularity": 63,
+    "preview_url": null,
+    "track_number": 1,
+    "type": "track",
+    "uri": "spotify:track:6Na5uKk5SsqZimk0hAWo8y"
+  }
+]
