@@ -3,7 +3,8 @@ import React, { useState, useEffect, FormEvent } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import DropdownMenu from "@/components/ui/DropdownMenu";
-import { Track } from "./types";
+import { Card } from "@/components/ui/card";
+import Player from "./player";
 
 export default function Home() {
   const ClientID = process.env.NEXT_PUBLIC_CLIENT_ID;
@@ -15,6 +16,33 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   const [searchType, setSearchType] = useState<string | null>(null);
   const [SearchKey, setSearchKey] = useState<string>("");
+  const [TrackSearchResults, setTrackSearchResults] = useState<Track[]>([]);
+  const [playingTrack, setPlayingTrack] = useState();
+
+  const [artist, setArtist] = useState<string | null>(null);
+  const [songName, setSongName] = useState<string | null>(null);
+
+  console.log("TRACK SEARCH RESULTS HERE:", TrackSearchResults);
+
+  function chooseTrack(track: undefined) {
+    setPlayingTrack(track);
+    setSearchKey("");
+  }
+
+  // const [Load]
+
+  interface Track {
+    name: string;
+    external_urls: {
+      spotify: string;
+    };
+    trackUri: string;
+    artists: Artist[];
+  }
+
+  interface Artist {
+    name: string;
+  }
 
   const Search = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,20 +71,16 @@ export default function Home() {
   };
 
   const Feed = (SearchResult: string) => {
-    interface Track {
-      name: string;
-      url: string;
-      artist: string;
-      artisturl: string;
-    }
-
     const ParsedData = JSON.parse(SearchResult);
     switch (searchType) {
       case "track": {
-        ParsedData.tracks.items.forEach((track: Track) => {
-          const name = track.name;
-          console.log(name);
-        });
+        const results: Track[] = ParsedData.tracks.items.map((item: Track) => ({
+          name: item.name,
+          external_urls: item.external_urls,
+          trackUri: item.trackUri,
+          artistname: item.artists[0].name || "Unknown Artist", // Handle missing artist
+        }));
+        setTrackSearchResults(results);
         break;
       }
       // Add other cases as needed
@@ -65,7 +89,7 @@ export default function Home() {
         break;
       }
     }
-};
+  };
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -149,26 +173,50 @@ export default function Home() {
           </button>
         </>
       ) : (
-        <form onSubmit={Search}>
-          <Input
-            type="text"
-            value={SearchKey}
-            onChange={(e) => setSearchKey(e.target.value)}
-          />
-          <DropdownMenu
-            options={[
-              "album",
-              "artist",
-              "playlist",
-              "track",
-              "show",
-              "episode",
-              "audiobook",
-            ]}
-            onSelect={(option) => setSearchType(option)}
-          />
-          <button type="submit">Search</button>
-        </form>
+        <>
+          <form onSubmit={Search}>
+            <Input
+              type="text"
+              value={SearchKey}
+              onChange={(e) => setSearchKey(e.target.value)}
+            />
+            <DropdownMenu
+              options={[
+                "album",
+                "artist",
+                "playlist",
+                "track",
+                "show",
+                "episode",
+                "audiobook",
+              ]}
+              onSelect={(option) => setSearchType(option)}
+            />
+            <button type="submit">Search</button>
+          </form>
+
+          <div>
+            {TrackSearchResults.length > 0 ? (
+              TrackSearchResults.map((track, index) => (
+                <Card key={index} className="mb-4 p-4">
+                  <a
+                    href={track.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {track.name}
+                  </a>
+                  {track.name}
+                  {/* {track.} */}
+                </Card>
+              ))
+            ) : (
+              <p>No results found</p>
+            )}
+          </div>
+        </>
+
+        // Search results will be displayed here
       )}
     </div>
   );
