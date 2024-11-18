@@ -1,0 +1,182 @@
+{
+    "kind": "youtube#searchListResponse",
+    "etag": "VPGrbS2mk3U87jsQIFTX6yHXc8I",
+    "nextPageToken": "CAUQAA",
+    "regionCode": "IN",
+    "pageInfo": {
+        "totalResults": 1000000,
+        "resultsPerPage": 5
+    },
+    "items": [
+        {
+            "kind": "youtube#searchResult",
+            "etag": "KMBbpcGZvlSD-Yu9e_DVhJSO31Q",
+            "id": {
+                "kind": "youtube#video",
+                "videoId": "SRXH9AbT280"
+            },
+            "snippet": {
+                "publishedAt": "2024-09-05T23:15:08Z",
+                "channelId": "UCZU9T1ceaOgwfLRq7OKFU4Q",
+                "title": "The Emptiness Machine (Official Music Video) - Linkin Park",
+                "description": "From Zero | The New Album | Available Now Order Now: https://lprk.co/fromzero Follow Linkin Park: Tour Dates: http://lprk.co/tour ...",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/SRXH9AbT280/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/SRXH9AbT280/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/SRXH9AbT280/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    }
+                },
+                "channelTitle": "Linkin Park",
+                "liveBroadcastContent": "none",
+                "publishTime": "2024-09-05T23:15:08Z"
+            }
+        },
+        {
+            "kind": "youtube#searchResult",
+            "etag": "VnDkI3qQgJKuVDzafV3yk64GRY4",
+            "id": {
+                "kind": "youtube#video",
+                "videoId": "kivUsDGWojU"
+            },
+            "snippet": {
+                "publishedAt": "2024-11-13T23:00:17Z",
+                "channelId": "UCZU9T1ceaOgwfLRq7OKFU4Q",
+                "title": "Two Faced (Official Music Video) - Linkin Park",
+                "description": "From Zero | The New Album | Available Now Order Now: https://lprk.co/fromzero Follow Linkin Park: Tour Dates: http://lprk.co/tour ...",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/kivUsDGWojU/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/kivUsDGWojU/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/kivUsDGWojU/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    }
+                },
+                "channelTitle": "Linkin Park",
+                "liveBroadcastContent": "none",
+                "publishTime": "2024-11-13T23:00:17Z"
+            }
+        },
+        {
+            "kind": "youtube#searchResult",
+            "etag": "UdIm4l4nQGpDyrKgSSds5WTyh3I",
+            "id": {
+                "kind": "youtube#video",
+                "videoId": "kXYiU_JCYtU"
+            },
+            "snippet": {
+                "publishedAt": "2007-03-05T08:12:00Z",
+                "channelId": "UCZU9T1ceaOgwfLRq7OKFU4Q",
+                "title": "Numb (Official Music Video) [4K UPGRADE] – Linkin Park",
+                "description": "Numb (Official Music Video) [4K UPGRADE] – Linkin Park ---------- From Zero | The New Album | Available Now Order Now: ...",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/kXYiU_JCYtU/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/kXYiU_JCYtU/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/kXYiU_JCYtU/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    }
+                },
+                "channelTitle": "Linkin Park",
+                "liveBroadcastContent": "none",
+                "publishTime": "2007-03-05T08:12:00Z"
+            }
+        },
+        {
+            "kind": "youtube#searchResult",
+            "etag": "KfvlGE5vSzb2oI4Wg5QwkfKGhNU",
+            "id": {
+                "kind": "youtube#video",
+                "videoId": "fSHoePrnmMw"
+            },
+            "snippet": {
+                "publishedAt": "2024-10-24T18:00:07Z",
+                "channelId": "UCZU9T1ceaOgwfLRq7OKFU4Q",
+                "title": "Over Each Other (Official Music Video) - Linkin Park",
+                "description": "From Zero | The New Album | Available Now Order Now: https://lprk.co/fromzero Follow Linkin Park: Tour Dates: http://lprk.co/tour ...",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/fSHoePrnmMw/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/fSHoePrnmMw/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/fSHoePrnmMw/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    }
+                },
+                "channelTitle": "Linkin Park",
+                "liveBroadcastContent": "none",
+                "publishTime": "2024-10-24T18:00:07Z"
+            }
+        },
+        {
+            "kind": "youtube#searchResult",
+            "etag": "gcO4QSs8GnZ-Dd0YN2rIE1HAljQ",
+            "id": {
+                "kind": "youtube#video",
+                "videoId": "WNeLUngb-Xg"
+            },
+            "snippet": {
+                "publishedAt": "2018-10-09T15:59:25Z",
+                "channelId": "UCaB_KyYOjfNHBm0f-TvBmiw",
+                "title": "Linkin Park - In The End (Mellen Gi &amp; Tommee Profitt Remix)",
+                "description": "Tommee Profitt - In The End (Mellen Gi Remix) [Fleurie Cover] Follow TrapMusicHD Facebook: ...",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/WNeLUngb-Xg/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/WNeLUngb-Xg/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/WNeLUngb-Xg/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    }
+                },
+                "channelTitle": "TrapMusicHDTV",
+                "liveBroadcastContent": "none",
+                "publishTime": "2018-10-09T15:59:25Z"
+            }
+        }
+    ]
+}

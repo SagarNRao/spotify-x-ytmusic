@@ -41,15 +41,24 @@ importers:
       react-h5-audio-player:
         specifier: ^3.9.3
         version: 3.9.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-icons:
+        specifier: ^5.3.0
+        version: 5.3.0(react@18.3.1)
       react-modern-audio-player:
         specifier: 1.4.0-rc.2
         version: 1.4.0-rc.2(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react-is@16.13.1)(react@18.3.1)
       react-player:
         specifier: ^2.16.0
         version: 2.16.0(react@18.3.1)
+      react-spotify-player:
+        specifier: ^1.0.4
+        version: 1.0.4(prop-types@15.8.1)
       react-spotify-web-playback:
         specifier: ^0.14.4
         version: 0.14.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-youtube-music-player:
+        specifier: ^1.0.5
+        version: 1.0.5
       tailwind-merge:
         specifier: ^2.5.2
         version: 2.5.2
@@ -1764,6 +1773,11 @@ packages:
     peerDependencies:
       react: '*'
 
+  react-icons@5.3.0:
+    resolution: {integrity: sha512-DnUk8aFbTyQPSkCfF8dbX6kQjXA9DktMeJqfjrg6cK9vwQVMxmcA3BfP4QoiztVmEHtwlTgLFsPuH2NskKT6eg==}
+    peerDependencies:
+      react: '*'
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -1778,10 +1792,18 @@ packages:
     peerDependencies:
       react: '>=16.6.0'
 
+  react-spotify-player@1.0.4:
+    resolution: {integrity: sha512-9iF9vgWqJC+SUaNxUWkD/DCKQ5BJZoeX31mh4KZdb60xhaVq9yaH+Lvq9HLNAUbS5BhhjLJLyGRo45A5qkzH3w==}
+    peerDependencies:
+      prop-types: ^15.5.10
+
   react-spotify-web-playback@0.14.4:
     resolution: {integrity: sha512-68k0drCyf8tryzi22MOa7PHYYLGhEwGMKPLuQ9XpcWYKaAgiAOqejkgEGxHk1mRMKgC6kg0Ho3Ce+8fHRu+Q7Q==}
     peerDependencies:
       react: 17 - 18
+
+  react-youtube-music-player@1.0.5:
+    resolution: {integrity: sha512-Vvz2cY0uM/BqxmcqQW+Y9MS3ki3a4r2wnjMxnw1uL25azefrj92HKCh99wi7O86iNgHQOT1tHOiQ1e7JJ7q0MQ==}
 
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
@@ -4099,6 +4121,10 @@ snapshots:
     dependencies:
       react: 18.3.1
 
+  react-icons@5.3.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
   react-is@16.13.1: {}
 
   react-modern-audio-player@1.4.0-rc.2(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react-is@16.13.1)(react@18.3.1):
@@ -4126,6 +4152,10 @@ snapshots:
       react: 18.3.1
       react-fast-compare: 3.2.2
 
+  react-spotify-player@1.0.4(prop-types@15.8.1):
+    dependencies:
+      prop-types: 15.8.1
+
   react-spotify-web-playback@0.14.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@gilbarbara/deep-equal': 0.3.1
@@ -4138,6 +4168,11 @@ snapshots:
       react: 18.3.1
     transitivePeerDependencies:
       - react-dom
+
+  react-youtube-music-player@1.0.5:
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   react@18.3.1:
     dependencies:

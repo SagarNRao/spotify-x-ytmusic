@@ -3,8 +3,32 @@ import React, { useState, useEffect, FormEvent } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import DropdownMenu from "@/components/ui/DropdownMenu";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import Player from "./player";
+import { Button } from "@/components/ui/button";
+
+interface Artist {
+  name: string;
+}
+
+interface Track {
+  name: string;
+  external_urls: {
+    spotify: string;
+  };
+  trackUri: string;
+  artists: Artist[];
+}
+
+// eslint-disable-next-line prefer-const
+let results: Track[] = [];
 
 export default function Home() {
   const ClientID = process.env.NEXT_PUBLIC_CLIENT_ID;
@@ -22,6 +46,8 @@ export default function Home() {
   const [artist, setArtist] = useState<string | null>(null);
   const [songName, setSongName] = useState<string | null>(null);
 
+  const [searchEngine, setSearchEngine] = useState<string>();
+
   console.log("TRACK SEARCH RESULTS HERE:", TrackSearchResults);
 
   function chooseTrack(track: undefined) {
@@ -31,44 +57,40 @@ export default function Home() {
 
   // const [Load]
 
-  interface Track {
-    name: string;
-    external_urls: {
-      spotify: string;
-    };
-    trackUri: string;
-    artists: Artist[];
-  }
-
-  interface Artist {
-    name: string;
-  }
-
   const Search = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    if (searchEngine == "Spotify") {
+      event.preventDefault();
 
-    if (!token) {
-      console.error("Cannot search artists, no access token available");
-      return;
+      if (!token) {
+        console.error("Cannot search artists, no access token available");
+        return;
+      }
+
+      const { data } = await axios.get("https://api.spotify.com/v1/search", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          q: SearchKey,
+          type: searchType,
+          market: "ES",
+          limit: 10,
+          offset: 5,
+        },
+      });
+
+      console.log(typeof data);
+      console.log(data);
+      Feed(JSON.stringify(data));
+    } else if (searchEngine == "YTMusic") {
+
+
+
+      // Feed(JSON.stringify(data));
     }
-
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        q: SearchKey,
-        type: searchType,
-        market: "ES",
-        limit: 10,
-        offset: 5,
-      },
-    });
-
-    console.log(typeof data);
-    console.log(data);
-    Feed(JSON.stringify(data));
   };
+
+  const YTMSearch = async (event: FormEvent<HTMLFormElement>) => {};
 
   const Feed = (SearchResult: string) => {
     const ParsedData = JSON.parse(SearchResult);
@@ -78,7 +100,9 @@ export default function Home() {
           name: item.name,
           external_urls: item.external_urls,
           trackUri: item.trackUri,
-          artistname: item.artists[0].name || "Unknown Artist", // Handle missing artist
+          artists: item.artists.map((artist: Artist) => ({
+            name: artist.name,
+          })),
         }));
         setTrackSearchResults(results);
         break;
@@ -121,6 +145,7 @@ export default function Home() {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const refreshAccessToken = async () => {
@@ -175,24 +200,44 @@ export default function Home() {
       ) : (
         <>
           <form onSubmit={Search}>
-            <Input
-              type="text"
-              value={SearchKey}
-              onChange={(e) => setSearchKey(e.target.value)}
-            />
-            <DropdownMenu
-              options={[
-                "album",
-                "artist",
-                "playlist",
-                "track",
-                "show",
-                "episode",
-                "audiobook",
-              ]}
-              onSelect={(option) => setSearchType(option)}
-            />
-            <button type="submit">Search</button>
+            <div>
+              <div className="flex">
+                {" "}
+                <Input
+                  type="text"
+                  value={SearchKey}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                />
+                <div className="max-w-full">
+                  <DropdownMenu
+                    options={[
+                      "album",
+                      "artist",
+                      "playlist",
+                      "track",
+                      "show",
+                      "episode",
+                      "audiobook",
+                    ]}
+                    onSelect={(option) => setSearchType(option)}
+                  />
+                </div>
+                <div className="flex">
+                  <Button
+                    type="submit"
+                    onClick={() => setSearchEngine("Spotify")}
+                  >
+                    Spotify
+                  </Button>
+                  <Button
+                    type="submit"
+                    onClick={() => setSearchEngine("YTMusic")}
+                  >
+                    YTMusic
+                  </Button>
+                </div>
+              </div>
+            </div>
           </form>
 
           <div>
@@ -203,11 +248,18 @@ export default function Home() {
                     href={track.external_urls.spotify}
                     target="_blank"
                     rel="noopener noreferrer"
-                  >
-                    {track.name}
-                  </a>
-                  {track.name}
-                  {/* {track.} */}
+                  ></a>
+                  <CardTitle>{track.name}</CardTitle>
+                  <br />
+                  <CardDescription>
+                    {track.artists.map((artist, artistIndex) => (
+                      <>
+                        <span key={artistIndex}>{artist.name} on spotify</span>{" "}
+                        <br />
+                      </>
+                    ))}
+                  </CardDescription>
+                  <Button>Play</Button>
                 </Card>
               ))
             ) : (
