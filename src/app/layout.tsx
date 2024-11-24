@@ -1,7 +1,6 @@
 // src/app/layout.tsx
 import React from "react";
 import { Provider } from "react-redux";
-import store from "./IDKWhereToPutThisStuff/store";
 import { Metadata } from "next";
 
 const geistSans = {
@@ -30,7 +29,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        {/* <Provider store={store}>{children}</Provider> */}
       </body>
     </html>
   );
