@@ -1,24 +1,45 @@
-"use client"
-import { Button } from "@/components/ui/button";
+"use client";
+import React, { useState } from "react";
 
-const sendDataToPythonScript = async () => {
-  const response = await fetch('/api/run-python', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ data: 'your-string-data' }),
-  });
+const YourComponent = () => {
+  const [inputData, setInputData] = useState("");
+  const [res, setRes] = useState("");
 
-  const result = await response.json();
-  console.log(result.output);
+  const handleButtonClick = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: inputData }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.text();
+      setRes(result);
+      console.log(result);
+    } catch (error) {
+      console.error("Error:", error);
+      setRes("Error fetching data from Python server");
+    }
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={inputData}
+        onChange={(e) => setInputData(e.target.value)}
+        placeholder="Enter data"
+      />
+      <button onClick={handleButtonClick}>Run Python Script</button>
+      <p>{res}</p>
+    </div>
+  );
 };
 
-// Call this function when needed, e.g., on a button click
-// sendDataToPythonScript();
-
-export default function Page() {
-return (
-  <Button onClick={sendDataToPythonScript}>Here</Button>
-)
-}
+export default YourComponent;
