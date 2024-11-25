@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const YourComponent = () => {
   const [inputData, setInputData] = useState("");
   const [res, setRes] = useState("");
 
-  const handleButtonClick = async () => {
+  const handleSearchSpotify = async () => {
     try {
       const response = await fetch("http://localhost:5000/search", {
         method: "POST",
@@ -30,13 +32,13 @@ const YourComponent = () => {
 
   return (
     <div>
-      <input
+      <Input
         type="text"
         value={inputData}
         onChange={(e) => setInputData(e.target.value)}
         placeholder="Enter data"
       />
-      <button onClick={handleButtonClick}>Run Python Script</button>
+      <Button onClick={handleSearchSpotify}>Run Python Script</Button>
       <p>{res}</p>
     </div>
   );
