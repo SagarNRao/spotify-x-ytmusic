@@ -7,6 +7,7 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 from credentials import userName, pwd
 from webdriver_instance import WebDriverSingleton
+from selenium.webdriver.common.keys import Keys
 
 # selenium 4
 from selenium.webdriver.chrome.service import Service as ChromiumService
@@ -36,6 +37,12 @@ time.sleep(5)
 
 def search(data):
     if data != "":
+        driver.find_element(
+            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/span/div/form/div[2]/input').send_keys(Keys.CONTROL,"a")
+   
+        driver.find_element(
+            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/span/div/form/div[2]/input').send_keys(Keys.DELETE)
+        
         driver.find_element(
             "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/span/div/form/div[2]/input').send_keys(data)
         data = ""

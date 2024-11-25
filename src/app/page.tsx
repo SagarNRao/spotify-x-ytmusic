@@ -30,7 +30,49 @@ interface Track {
 // eslint-disable-next-line prefer-const
 let results: Track[] = [];
 
+interface PlayProps {
+  SongName: string;
+}
+
+const Play: React.FC<PlayProps> = ({ SongName }) => {
+  const [res, setRes] = useState("");
+
+  const PlaySong = async () => {
+    try {
+      console.log("calling")
+      const response = await fetch("http://localhost:5000/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: SongName }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.text();
+      setRes(result);
+      console.log(result);
+    } catch (error) {
+      console.error("Error:", error);
+      setRes("Error fetching data from Python server");
+    }
+  };
+
+  return (
+    <>
+      <div>
+        <Button onClick={PlaySong}>Play</Button>
+      </div>
+    </>
+  );
+};
 export default function Home() {
+  const [inputData, setInputData] = useState("");
+  const [res, setRes] = useState("");
+
   const ClientID = process.env.NEXT_PUBLIC_CLIENT_ID;
   const ClientSecret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -47,8 +89,6 @@ export default function Home() {
   const [songName, setSongName] = useState<string | null>(null);
 
   const [searchEngine, setSearchEngine] = useState<string>();
-
-  console.log("TRACK SEARCH RESULTS HERE:", TrackSearchResults);
 
   function chooseTrack(track: undefined) {
     setPlayingTrack(track);
@@ -83,9 +123,6 @@ export default function Home() {
       console.log(data);
       Feed(JSON.stringify(data));
     } else if (searchEngine == "YTMusic") {
-
-
-
       // Feed(JSON.stringify(data));
     }
   };
@@ -252,6 +289,8 @@ export default function Home() {
                   <CardTitle>{track.name}</CardTitle>
                   <br />
                   <CardDescription>
+                    <Play SongName={track.name}></Play>
+
                     {track.artists.map((artist, artistIndex) => (
                       <>
                         <span key={artistIndex}>{artist.name} on spotify</span>{" "}
@@ -259,7 +298,6 @@ export default function Home() {
                       </>
                     ))}
                   </CardDescription>
-                  <Button>Play</Button>
                 </Card>
               ))
             ) : (
