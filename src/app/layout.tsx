@@ -2,6 +2,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { Metadata } from "next";
+import "./globals.css"
 
 const geistSans = {
   variable: "--font-geist-sans",
