@@ -23,7 +23,7 @@ interface Track {
   external_urls: {
     spotify: string;
   };
-  trackUri: string;
+  uri: string;
   artists: Artist[];
 }
 
@@ -31,21 +31,30 @@ interface Track {
 let results: Track[] = [];
 
 interface PlayProps {
-  SongName: string;
+  SongURI: string;
 }
 
-const Play: React.FC<PlayProps> = ({ SongName }) => {
+const Play: React.FC<PlayProps> = ({ SongURI }) => {
   const [res, setRes] = useState("");
 
+  // console.log("SongURI", SongURI);
+
+  // const searchURI = "spotify:track:" + SongURI;
+
   const PlaySong = async () => {
+    if (!SongURI) {
+      console.error("SongURI not defined");
+      return;
+    }
+
     try {
-      console.log("calling")
+      console.log("calling");
       const response = await fetch("http://localhost:5000/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data: SongName }),
+        body: JSON.stringify({ data: SongURI }),
       });
 
       if (!response.ok) {
@@ -86,14 +95,9 @@ export default function Home() {
   const [playingTrack, setPlayingTrack] = useState();
 
   const [artist, setArtist] = useState<string | null>(null);
-  const [songName, setSongName] = useState<string | null>(null);
+  const [SongURI, setSongURI] = useState<string | null>(null);
 
   const [searchEngine, setSearchEngine] = useState<string>();
-
-  function chooseTrack(track: undefined) {
-    setPlayingTrack(track);
-    setSearchKey("");
-  }
 
   // const [Load]
 
@@ -136,11 +140,14 @@ export default function Home() {
         const results: Track[] = ParsedData.tracks.items.map((item: Track) => ({
           name: item.name,
           external_urls: item.external_urls,
-          trackUri: item.trackUri,
+          uri: item.uri,
           artists: item.artists.map((artist: Artist) => ({
             name: artist.name,
           })),
         }));
+
+        console.log(results);
+
         setTrackSearchResults(results);
         break;
       }
@@ -289,13 +296,10 @@ export default function Home() {
                   <CardTitle>{track.name}</CardTitle>
                   <br />
                   <CardDescription>
-                    <Play SongName={track.name}></Play>
-
+                    Track URI: {track.uri}
+                    <Play SongURI={track.uri} />
                     {track.artists.map((artist, artistIndex) => (
-                      <>
-                        <span key={artistIndex}>{artist.name} on spotify</span>{" "}
-                        <br />
-                      </>
+                      <span key={artistIndex}>{artist.name} on spotify</span>
                     ))}
                   </CardDescription>
                 </Card>
