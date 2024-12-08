@@ -38,16 +38,16 @@ time.sleep(5)
 def search(data):
     if data != "":
         driver.find_element(
-            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/span/div/form/div[2]/input').send_keys(Keys.CONTROL, "a")
+            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/div/span/div/form/div[2]/input').send_keys(Keys.CONTROL, "a")
 
         driver.find_element(
-            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/span/div/form/div[2]/input').send_keys(Keys.DELETE)
+            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/div/span/div/form/div[2]/input').send_keys(Keys.DELETE)
 
         driver.find_element(
-            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/span/div/form/div[2]/input').send_keys(data)
+            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/div/span/div/form/div[2]/input').send_keys(data)
 
         driver.find_element(
-            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/span/div/form/div[2]/input').send_keys(Keys.ENTER)
+            "xpath", '/html/body/div[4]/div/div[2]/div[1]/div[2]/div/div/span/div/form/div[2]/input').send_keys(Keys.ENTER)
 
         time.sleep(2)
 
@@ -74,7 +74,11 @@ def search_route():
         return jsonify({"message": "success"})
     return jsonify({"message": "failed"})
 
-
+@app.route("/searchYTM", methods=["POST"])
+def searchSpotifyRoute():
+    data = request.json.get("data")
+    
+    
 app.add_url_rule('/search', 'search_route', search_route)
 
 
