@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import Player from "./player";
 import { Button } from "@/components/ui/button";
+import YTMPlayer from "./ytmusic/page";
 
 interface Artist {
   name: string;
@@ -25,6 +26,18 @@ interface Track {
   };
   uri: string;
   artists: Artist[];
+}
+
+interface YTMTrack {
+  snippet: {
+    title: string | undefined;
+  };
+  id: {
+    videoId: string | undefined;
+  };
+
+  finalTitle: string;
+  finalID: string;
 }
 
 // eslint-disable-next-line prefer-const
@@ -78,6 +91,7 @@ const Play: React.FC<PlayProps> = ({ SongURI }) => {
     </>
   );
 };
+
 export default function Home() {
   const [inputData, setInputData] = useState("");
   const [res, setRes] = useState("");
@@ -92,6 +106,7 @@ export default function Home() {
   const [searchType, setSearchType] = useState<string | null>(null);
   const [SearchKey, setSearchKey] = useState<string>("");
   const [TrackSearchResults, setTrackSearchResults] = useState<Track[]>([]);
+  const [YTMResults, setYTMResults] = useState<YTMTrack[]>([]);
   const [playingTrack, setPlayingTrack] = useState();
 
   const [artist, setArtist] = useState<string | null>(null);
@@ -102,6 +117,7 @@ export default function Home() {
   // const [Load]
 
   const Search = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (searchEngine == "Spotify") {
       event.preventDefault();
 
@@ -126,36 +142,74 @@ export default function Home() {
       console.log(typeof data);
       console.log(data);
       Feed(JSON.stringify(data));
-    } else if (searchEngine == "YTMusic") {
-      // Feed(JSON.stringify(data));
+    } else if (searchEngine == "YTM") {
+      console.log("YTM Search");
+      event.preventDefault();
+      try {
+        const { data } = await axios.get(
+          `https://www.googleapis.com/youtube/v3/search/?key=${process.env.NEXT_PUBLIC_YTDATA_API_KEY}&q=${SearchKey}&part=snippet`
+        );
+        console.log("calling that feed function");
+        Feed(JSON.stringify(data));
+
+        // return data;
+      } catch (error) {
+        console.error("Error fetching data from YouTube API", error);
+        throw error;
+      }
     }
   };
 
-  const YTMSearch = async (event: FormEvent<HTMLFormElement>) => {};
-
   const Feed = (SearchResult: string) => {
-    const ParsedData = JSON.parse(SearchResult);
-    switch (searchType) {
-      case "track": {
-        const results: Track[] = ParsedData.tracks.items.map((item: Track) => ({
-          name: item.name,
-          external_urls: item.external_urls,
-          uri: item.uri,
-          artists: item.artists.map((artist: Artist) => ({
-            name: artist.name,
-          })),
-        }));
+    if (searchEngine == "Spotify") {
+      const ParsedData = JSON.parse(SearchResult);
+      switch (searchType) {
+        case "track": {
+          const results: Track[] = ParsedData.tracks.items.map(
+            (item: Track) => ({
+              name: item.name,
+              external_urls: item.external_urls,
+              uri: item.uri,
+              artists: item.artists.map((artist: Artist) => ({
+                name: artist.name,
+              })),
+            })
+          );
 
-        console.log(results);
+          console.log(results);
 
-        setTrackSearchResults(results);
-        break;
+          setTrackSearchResults(results);
+          break;
+        }
+        // Add other cases as needed
+        default: {
+          console.log("Default case");
+          break;
+        }
       }
-      // Add other cases as needed
-      default: {
-        console.log("Default case");
-        break;
-      }
+    } else if (searchEngine == "YTM") {
+      console.log("using", searchEngine);
+      const ParsedData = JSON.parse(SearchResult);
+      console.log("ParsedData HERE: ", ParsedData);
+      const results: YTMTrack[] = ParsedData.items.map((item: YTMTrack) => {
+        const title = item.snippet.title;
+        const videoId = item.id.videoId;
+
+        return {
+          snippet: {
+            title: title,
+          },
+          id: {
+            videoId: videoId,
+          },
+          finalTitle: title,
+          finalID: videoId,
+        };
+      });
+
+      setYTMResults(results);
+
+      console.log("YTM Search results: ", YTMResults);
     }
   };
 
@@ -273,10 +327,7 @@ export default function Home() {
                   >
                     Spotify
                   </Button>
-                  <Button
-                    type="submit"
-                    onClick={() => setSearchEngine("YTMusic")}
-                  >
+                  <Button type="submit" onClick={() => setSearchEngine("YTM")}>
                     YTMusic
                   </Button>
                 </div>
@@ -285,27 +336,38 @@ export default function Home() {
           </form>
 
           <div>
-            {TrackSearchResults.length > 0 ? (
+            {TrackSearchResults.length > 0 && searchEngine == "Spotify" ? (
               TrackSearchResults.map((track, index) => (
                 <Card key={index} className="mb-4 p-4">
-                  <a
-                    href={track.external_urls.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  ></a>
-                  <CardTitle>{track.name}</CardTitle>
-                  <br />
-                  <CardDescription>
-                    Track URI: {track.uri}
-                    <Play SongURI={track.uri} />
-                    {track.artists.map((artist, artistIndex) => (
-                      <span key={artistIndex}>{artist.name} on spotify</span>
-                    ))}
-                  </CardDescription>
+                  <>
+                    <a
+                      href={track.external_urls.spotify}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {track.name}
+                    </a>
+                    <CardDescription>
+                      {track.artists.map((artist, artistIndex) => (
+                        <span key={artistIndex}>{artist.name} on spotify</span>
+                      ))}
+                    </CardDescription>
+                    <CardDescription>
+                      <Play SongURI={track.uri} />
+                    </CardDescription>
+                  </>
                 </Card>
               ))
             ) : (
-              <p>No results found</p>
+              <div>
+                {YTMResults.length > 0 ? (
+                  YTMResults.map((track, index) => (
+                    <Card key={index}>{track.finalTitle}</Card>
+                  ))
+                ) : (
+                  <p>o no</p>
+                )}
+              </div>
             )}
           </div>
         </>
