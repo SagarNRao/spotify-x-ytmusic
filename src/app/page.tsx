@@ -101,6 +101,10 @@ export default function Home() {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const REDIRECT_URI = "http://localhost:3000";
+  const SCOPES = "user-top-read";
+
+  // eslint-disable-next-line no-var
+  let urlCode: string;
 
   const [token, setToken] = useState<string | null>(null);
   const [searchType, setSearchType] = useState<string | null>(null);
@@ -125,6 +129,24 @@ export default function Home() {
         console.error("Cannot search artists, no access token available");
         return;
       }
+
+      const authOptions = {
+        url: "https://accounts.spotify.com/api/token",
+        headers: {
+          Authorization:
+            "Basic " +
+            Buffer.from(
+              process.env.NEXT_PUBLIC_CLIENT_ID +
+                ":" +
+                process.env.NEXT_PUBLIC_CLIENT_SECRET
+            ).toString("base64"),
+        },
+        form: {
+          redirect_uri: REDIRECT_URI,
+          grant_type: "authorization_code",
+        },
+        json: true,
+      };
 
       const { data } = await axios.get("https://api.spotify.com/v1/search", {
         headers: {
@@ -158,6 +180,16 @@ export default function Home() {
         throw error;
       }
     }
+  };
+
+  const getQ = async () => {
+    const data = await axios.get("https://api.spotify.com/v1/me/player/queue", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("GUYS DATA: ", data);
   };
 
   const Feed = (SearchResult: string) => {
@@ -213,6 +245,43 @@ export default function Home() {
     }
   };
 
+  const setCode = async () => {
+    const queryString = window.location.search;
+
+    if (queryString.length > 0) {
+      const urlParams = new URLSearchParams(queryString);
+
+      urlCode = urlParams.get("code") as string;
+      console.log("URL CODE HERE ",urlCode)
+    }
+  };
+
+  const getAccessToken = async () => {
+
+    const response = await axios.post(
+
+      'https://accounts.spotify.com/api/token',
+
+      new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: urlCode,
+        // redirect_uri: REDIRECT_URI,
+        // client_id: ClientID,
+        // client_secret: ClientSecret,
+      }).toString(),
+
+      {
+
+        headers: {
+
+          'Content-Type': 'application/x-www-form-urlencoded',
+
+        },
+
+      }
+
+    );
+
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
@@ -224,7 +293,28 @@ export default function Home() {
         const expiryTime = new Date().getTime() + parseInt(expiresIn) * 1000;
         window.localStorage.setItem("token", accessToken);
         window.localStorage.setItem("tokenExpiry", expiryTime.toString());
+
         setToken(accessToken);
+
+        const handleAuthentication = async () => {
+
+          await setCode();
+    
+          if (urlCode) {
+    
+            try {
+    
+              await getAccessToken();
+    
+              window.history.pushState({}, '', '/');
+    
+            } catch (error) {
+    
+              console.error('Error retrieving access token:', error);
+    
+            }
+    
+          }
 
         // Clear the hash from the URL
         window.location.hash = "";
@@ -247,6 +337,40 @@ export default function Home() {
   }, []);
 
   const refreshAccessToken = async () => {
+    const generateRandomString = (length: number) => {
+      const possible =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      const values = crypto.getRandomValues(new Uint8Array(length));
+      return values.reduce((acc, x) => acc + possible[x % possible.length], "");
+    };
+
+    const codeVerifier = generateRandomString(64);
+
+    const sha256 = async (plain: string) => {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(plain);
+      return window.crypto.subtle.digest("SHA-256", data);
+    };
+
+    const base64Encode = (input: ArrayBuffer): string => {
+      const uint8Array = new Uint8Array(input);
+      let binary = "";
+      for (let i = 0; i < uint8Array.byteLength; i++) {
+        binary += String.fromCharCode(uint8Array[i]);
+      }
+      return btoa(binary)
+        .replace(/=/g, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_");
+    };
+
+    const hashed = await sha256(codeVerifier);
+    const codeChallenge = base64Encode(hashed);
+
+    const scope =
+      "user-read-private user-read-email user-read-currently-playing user-read-playback-state";
+    const authUrl = new URL("https://accounts.spotify.com/authorize");
+
     const refreshToken = window.localStorage.getItem("refreshToken");
     if (!refreshToken) {
       // Redirect to login if no refresh token is available
@@ -254,21 +378,19 @@ export default function Home() {
       return;
     }
 
+    
+
     try {
       const response = await axios.post(
         "https://accounts.spotify.com/api/token",
-        null,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Basic ${btoa(`${ClientID}:${ClientSecret}`)}`,
-          },
-          params: {
-            grant_type: "refresh_token",
-            refresh_token: refreshToken,
-          },
-        }
+
+        new URLSearchParams({
+          grant_type: 'authorization_code',
+          code: urlCode,
+        })
       );
+      const token = response.data.access_token;
+      setToken(token);
 
       const { access_token, expires_in } = response.data;
       const expiryTime = new Date().getTime() + expires_in * 1000;
@@ -349,7 +471,9 @@ export default function Home() {
                     </a>
                     <CardDescription>
                       {track.artists.map((artist, artistIndex) => (
-                        <span key={artistIndex}>{artist.name} on spotify</span>
+                        <span key={artistIndex}>
+                          {artist.name} on spotify <br />
+                        </span>
                       ))}
                     </CardDescription>
                     <CardDescription>
@@ -362,7 +486,12 @@ export default function Home() {
               <div>
                 {YTMResults.length > 0 ? (
                   YTMResults.map((track, index) => (
-                    <Card key={index}>{track.finalTitle}</Card>
+                    <Card key={index}>
+                      <YTMPlayer
+                        Name={track.finalTitle}
+                        videoID={track.finalID}
+                      ></YTMPlayer>
+                    </Card>
                   ))
                 ) : (
                   <p>o no</p>
@@ -374,6 +503,8 @@ export default function Home() {
 
         // Search results will be displayed here
       )}
+      {token}
+      <Button onClick={getQ}>Get queue details</Button>
     </div>
   );
 }
