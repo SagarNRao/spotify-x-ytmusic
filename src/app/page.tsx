@@ -14,6 +14,9 @@ import {
 import Player from "./player";
 import { Button } from "@/components/ui/button";
 import YTMPlayer from "./ytmusic/page";
+import querystring from "querystring";
+import { METHODS } from "http";
+import { headers } from "next/headers";
 
 interface Artist {
   name: string;
@@ -95,13 +98,17 @@ const Play: React.FC<PlayProps> = ({ SongURI }) => {
 export default function Home() {
   const [inputData, setInputData] = useState("");
   const [res, setRes] = useState("");
+  const [codeVerifier, setCodeVerifier] = useState("");
 
-  const ClientID = process.env.NEXT_PUBLIC_CLIENT_ID;
+  const [test, setTest] = useState("no");
+
   const ClientSecret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+  const CLIENTID = process.env.NEXT_PUBLIC_CLIENT_ID;
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-  const RESPONSE_TYPE = "token";
+  const RESPONSE_TYPE = "code";
   const REDIRECT_URI = "http://localhost:3000";
-  const SCOPES = "user-top-read";
+  const SCOPES =
+    "user-read-private user-read-email user-top-read user-read-currently-playing user-read-playback-state";
 
   // eslint-disable-next-line no-var
   let urlCode: string;
@@ -129,24 +136,6 @@ export default function Home() {
         console.error("Cannot search artists, no access token available");
         return;
       }
-
-      const authOptions = {
-        url: "https://accounts.spotify.com/api/token",
-        headers: {
-          Authorization:
-            "Basic " +
-            Buffer.from(
-              process.env.NEXT_PUBLIC_CLIENT_ID +
-                ":" +
-                process.env.NEXT_PUBLIC_CLIENT_SECRET
-            ).toString("base64"),
-        },
-        form: {
-          redirect_uri: REDIRECT_URI,
-          grant_type: "authorization_code",
-        },
-        json: true,
-      };
 
       const { data } = await axios.get("https://api.spotify.com/v1/search", {
         headers: {
@@ -185,7 +174,7 @@ export default function Home() {
   const getQ = async () => {
     const data = await axios.get("https://api.spotify.com/v1/me/player/queue", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${window.localStorage.getItem("access_token")}`,
       },
     });
 
@@ -252,18 +241,16 @@ export default function Home() {
       const urlParams = new URLSearchParams(queryString);
 
       urlCode = urlParams.get("code") as string;
-      console.log("URL CODE HERE ",urlCode)
+      console.log("URL CODE HERE ", urlCode);
     }
   };
 
   const getAccessToken = async () => {
-
     const response = await axios.post(
-
-      'https://accounts.spotify.com/api/token',
+      "https://accounts.spotify.com/api/token",
 
       new URLSearchParams({
-        grant_type: 'authorization_code',
+        grant_type: "authorization_code",
         code: urlCode,
         // redirect_uri: REDIRECT_URI,
         // client_id: ClientID,
@@ -271,16 +258,52 @@ export default function Home() {
       }).toString(),
 
       {
-
         headers: {
-
-          'Content-Type': 'application/x-www-form-urlencoded',
-
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-
       }
-
     );
+  };
+
+  const handleCallback = async () => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const code = urlParams.get("code");
+    // const state = urlParams.get("state");
+
+    // if (!state) {
+    //   window.location.href =
+    //     "/#" + querystring.stringify({ error: "state_mismatch" });
+    //   return;
+    // }
+
+    const authOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization:
+          "Basic " +
+          btoa(`${process.env.NEXT_PUBLIC_CLIENT_ID}:${ClientSecret}`),
+      },
+      body: new URLSearchParams({
+        code: code || "",
+        redirect_uri: REDIRECT_URI,
+        grant_type: "authorization_code",
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        "https://accounts.spotify.com/api/token",
+        authOptions
+      );
+      const data = await response.json();
+      console.log(data);
+      // Handle the response data
+    } catch (error) {
+      console.error("Error fetching the token:", error);
+    }
+  };
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -295,127 +318,164 @@ export default function Home() {
         window.localStorage.setItem("tokenExpiry", expiryTime.toString());
 
         setToken(accessToken);
+      } else {
+        const storedToken = window.localStorage.getItem("token");
+        const tokenExpiry = window.localStorage.getItem("tokenExpiry");
 
-        const handleAuthentication = async () => {
-
-          await setCode();
-    
-          if (urlCode) {
-    
-            try {
-    
-              await getAccessToken();
-    
-              window.history.pushState({}, '', '/');
-    
-            } catch (error) {
-    
-              console.error('Error retrieving access token:', error);
-    
-            }
-    
+        if (storedToken && tokenExpiry) {
+          const now = new Date().getTime();
+          if (now < parseInt(tokenExpiry)) {
+            setToken(storedToken);
+          } else {
+            // Token has expired, handle refresh logic here
           }
-
-        // Clear the hash from the URL
-        window.location.hash = "";
-      }
-    } else {
-      const storedToken = window.localStorage.getItem("token");
-      const tokenExpiry = window.localStorage.getItem("tokenExpiry");
-
-      if (storedToken && tokenExpiry) {
-        const now = new Date().getTime();
-        if (now < parseInt(tokenExpiry)) {
-          setToken(storedToken);
-        } else {
-          // Token has expired, handle refresh logic here
-          refreshAccessToken();
         }
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const refreshAccessToken = async () => {
-    const generateRandomString = (length: number) => {
-      const possible =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      const values = crypto.getRandomValues(new Uint8Array(length));
-      return values.reduce((acc, x) => acc + possible[x % possible.length], "");
-    };
+  useEffect(() => {
+    // handleCallback();
+  }, []);
 
-    const codeVerifier = generateRandomString(64);
+  const currentToken = {
+    get access_token() {
+      return localStorage.getItem("access_token") || null;
+    },
+    get refresh_token() {
+      return localStorage.getItem("refresh_token") || null;
+    },
+    get expires_in() {
+      return localStorage.getItem("refresh_in") || null;
+    },
+    get expires() {
+      return localStorage.getItem("expires") || null;
+    },
 
-    const sha256 = async (plain: string) => {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(plain);
-      return window.crypto.subtle.digest("SHA-256", data);
-    };
+    save: function (response: {
+      access_token: string;
+      refresh_token: string;
+      expires_in: number;
+    }) {
+      const { access_token, refresh_token, expires_in } = response;
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+      localStorage.setItem("expires_in", expires_in.toString());
 
-    const base64Encode = (input: ArrayBuffer): string => {
-      const uint8Array = new Uint8Array(input);
-      let binary = "";
-      for (let i = 0; i < uint8Array.byteLength; i++) {
-        binary += String.fromCharCode(uint8Array[i]);
-      }
-      return btoa(binary)
-        .replace(/=/g, "")
-        .replace(/\+/g, "-")
-        .replace(/\//g, "_");
-    };
+      const now = new Date();
+      const expiry = new Date(now.getTime() + expires_in * 1000);
+      localStorage.setItem("expires", expiry.toISOString());
+    },
+  };
 
-    const hashed = await sha256(codeVerifier);
-    const codeChallenge = base64Encode(hashed);
+  // On page load, try to fetch auth code from current browser search URL
+  const args = new URLSearchParams(window.location.search);
+  const code = args.get("code");
 
-    const scope =
-      "user-read-private user-read-email user-read-currently-playing user-read-playback-state";
-    const authUrl = new URL("https://accounts.spotify.com/authorize");
+  async function checkCode() {
+    console.log("CODE HERE", code);
 
-    const refreshToken = window.localStorage.getItem("refreshToken");
-    if (!refreshToken) {
-      // Redirect to login if no refresh token is available
-      window.location.href = `${AUTH_ENDPOINT}?client_id=${ClientID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`;
-      return;
+    if (code) {
+      const token = await getToken(code);
+      currentToken.save(token);
+
+      // Remove code from URL so we can refresh correctly.
+      const url = new URL(window.location.href);
+      url.searchParams.delete("code");
+
+      const updatedUrl = url.search ? url.href : url.href.replace("?", "");
+      window.history.replaceState({}, document.title, updatedUrl);
+    } else {
+      console.error("no code");
     }
+  }
 
-    
+  // useEffect(() => {
+  //   checkCode();
+  // }, []);
+
+  async function getToken(code: string) {
+    // const code_verifier = localStorage.getItem("code_verifier") || undefined;
 
     try {
-      const response = await axios.post(
-        "https://accounts.spotify.com/api/token",
+      console.log("CODE VERIFIER HERE", window.localStorage.getItem("code_verifier"));
+      const response = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          client_id: CLIENTID || "",
+          grant_type: "authorization_code",
+          code: code || "",
+          redirect_uri: REDIRECT_URI,
+          code_verifier: window.localStorage.getItem("code_verifier") || "",
+        }),
+      });
 
-        new URLSearchParams({
-          grant_type: 'authorization_code',
-          code: urlCode,
-        })
-      );
-      const token = response.data.access_token;
-      setToken(token);
+      console.log(response)
 
-      const { access_token, expires_in } = response.data;
-      const expiryTime = new Date().getTime() + expires_in * 1000;
+      return await response.json();
 
-      window.localStorage.setItem("token", access_token);
-      window.localStorage.setItem("tokenExpiry", expiryTime.toString());
-      setToken(access_token);
-    } catch (error) {
-      console.error("Failed to refresh access token", error);
-      // Redirect to login if refresh fails
-      window.location.href = `${AUTH_ENDPOINT}?client_id=${ClientID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`;
+    } catch (e) {
+      console.error(e);
     }
-  };
+  }
+
+  async function redirectToSpotifyAuthorize() {
+    console.log("is it here?");
+    const possible =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const randomValues = crypto.getRandomValues(new Uint8Array(64));
+    const randomString = randomValues.reduce(
+      (acc, x) => acc + possible[x % possible.length],
+      ""
+    );
+
+    const code_verifier = randomString;
+    setCodeVerifier(code_verifier);
+
+    const data = new TextEncoder().encode(code_verifier);
+    const hashed = await crypto.subtle.digest("SHA-256", data);
+
+    const code_challenge_base64 = btoa(
+      String.fromCharCode(...new Uint8Array(hashed))
+    )
+      .replace(/=/g, "")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_");
+
+    window.localStorage.setItem("code_verifier", code_verifier);
+
+    const authUrl = new URL("https://accounts.spotify.com/authorize");
+    const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
+    if (!clientId) {
+      throw new Error("Client ID is not defined");
+    }
+
+    const params: Record<string, string> = {
+      response_type: "code",
+      client_id: clientId,
+      scope: SCOPES,
+      code_challenge_method: "S256",
+      code_challenge: code_challenge_base64,
+      redirect_uri: REDIRECT_URI,
+    };
+
+    authUrl.search = new URLSearchParams(
+      params as Record<string, string>
+    ).toString();
+    window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
+  }
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       {!token ? (
         <>
-          <button>
-            <a
-              href={`${AUTH_ENDPOINT}?client_id=${ClientID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-            >
-              Login to Spotify
-            </a>
-          </button>
+          <Button onClick={redirectToSpotifyAuthorize}>Login to Spotify</Button>
+          <Button onClick={checkCode}>Check Code</Button>
+          {test}
         </>
       ) : (
         <>
