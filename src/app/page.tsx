@@ -97,6 +97,8 @@ const Play: React.FC<PlayProps> = ({ SongURI }) => {
   );
 };
 
+export let queueDetails = "";
+
 export default function Home() {
   const [inputData, setInputData] = useState("");
   const [res, setRes] = useState("");
@@ -116,7 +118,7 @@ export default function Home() {
   let urlCode: string;
 
   const [token, setToken] = useState<string | null>(null);
-  const [searchType, setSearchType] = useState<string | null>(null);
+  const [searchType, setSearchType] = useState<string | null>("track");
   const [SearchKey, setSearchKey] = useState<string>("");
   const [TrackSearchResults, setTrackSearchResults] = useState<Track[]>([]);
   const [YTMResults, setYTMResults] = useState<YTMTrack[]>([]);
@@ -181,16 +183,7 @@ export default function Home() {
     }
   };
 
-  const getQ = async () => {
-    const data = await axios.get("https://api.spotify.com/v1/me/player/queue", {
-      headers: {
-        Authorization: `Bearer ${window.localStorage.getItem("access_token")}`,
-      },
-    });
 
-    console.log("GUYS DATA: ", data);
-    setQDetails(JSON.stringify(data));
-  };
 
   const Feed = (SearchResult: string) => {
     if (searchEngine == "Spotify") {
@@ -243,37 +236,6 @@ export default function Home() {
 
       console.log("YTM Search results: ", YTMResults);
     }
-  };
-
-  const setCode = async () => {
-    const queryString = window.location.search;
-
-    if (queryString.length > 0) {
-      const urlParams = new URLSearchParams(queryString);
-
-      urlCode = urlParams.get("code") as string;
-      console.log("URL CODE HERE ", urlCode);
-    }
-  };
-
-  const getAccessToken = async () => {
-    const response = await axios.post(
-      "https://accounts.spotify.com/api/token",
-
-      new URLSearchParams({
-        grant_type: "authorization_code",
-        code: urlCode,
-        // redirect_uri: REDIRECT_URI,
-        // client_id: ClientID,
-        // client_secret: ClientSecret,
-      }).toString(),
-
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
   };
 
   const handleCallback = async () => {
@@ -344,6 +306,7 @@ export default function Home() {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }
+    checkCode();
   }, []);
 
   useEffect(() => {
@@ -400,6 +363,8 @@ export default function Home() {
     } else {
       console.error("no code");
     }
+
+    setToken(window.localStorage.getItem("access_token"));
   }
 
   // useEffect(() => {
@@ -482,6 +447,21 @@ export default function Home() {
     window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
   }
 
+  const getQ = async () => {
+    queueDetails = await axios.get(
+      "https://api.spotify.com/v1/me/player/queue",
+      {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem(
+            "access_token"
+          )}`,
+        },
+      }
+    );
+
+    console.log("GUYS DATA: ", queueDetails);
+  };
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       {!token ? (
@@ -501,20 +481,7 @@ export default function Home() {
                   value={SearchKey}
                   onChange={(e) => setSearchKey(e.target.value)}
                 />
-                <div className="max-w-full">
-                  <DropdownMenu
-                    options={[
-                      "album",
-                      "artist",
-                      "playlist",
-                      "track",
-                      "show",
-                      "episode",
-                      "audiobook",
-                    ]}
-                    onSelect={(option) => setSearchType(option)}
-                  />
-                </div>
+                <div className="max-w-full"></div>
                 <div className="flex">
                   <Button
                     type="submit"
