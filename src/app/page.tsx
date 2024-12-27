@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent, useContext } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import DropdownMenu from "@/components/ui/DropdownMenu";
@@ -17,6 +17,8 @@ import YTMPlayer from "./ytmusic/page";
 import querystring from "querystring";
 import { METHODS } from "http";
 import { headers } from "next/headers";
+import { AppContext } from "./AppContext";
+import Queue from "@/components/sections/queue";
 
 interface Artist {
   name: string;
@@ -127,6 +129,14 @@ export default function Home() {
 
   // const [Load]
 
+  const context = useContext(AppContext);
+
+  if (!context) {
+    throw new Error("AppContext must be used within an AppProvider");
+  }
+
+  const { QDetails, setQDetails } = context;
+
   const Search = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchEngine == "Spotify") {
@@ -179,6 +189,7 @@ export default function Home() {
     });
 
     console.log("GUYS DATA: ", data);
+    setQDetails(JSON.stringify(data));
   };
 
   const Feed = (SearchResult: string) => {
@@ -399,7 +410,10 @@ export default function Home() {
     // const code_verifier = localStorage.getItem("code_verifier") || undefined;
 
     try {
-      console.log("CODE VERIFIER HERE", window.localStorage.getItem("code_verifier"));
+      console.log(
+        "CODE VERIFIER HERE",
+        window.localStorage.getItem("code_verifier")
+      );
       const response = await fetch("https://accounts.spotify.com/api/token", {
         method: "POST",
         headers: {
@@ -414,10 +428,9 @@ export default function Home() {
         }),
       });
 
-      console.log(response)
+      console.log(response);
 
       return await response.json();
-
     } catch (e) {
       console.error(e);
     }
@@ -563,7 +576,7 @@ export default function Home() {
 
         // Search results will be displayed here
       )}
-      {token}
+      <Queue/>
       <Button onClick={getQ}>Get queue details</Button>
     </div>
   );

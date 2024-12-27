@@ -1,11 +1,19 @@
-import React from 'react'
+"use client"
+import React, { useContext } from 'react';
+import { AppContext } from '@/app/AppContext';
 
-interface Song {
-    Platform: string;
-}
+export default function Queue() {
+  const context = useContext(AppContext);
 
-export default function queue() {
+  if (!context) {
+    throw new Error('AppContext must be used within an AppProvider');
+  }
+
+  const { QDetails } = context;
+
   return (
-    <div>queue</div>
-  )
+    <div>
+      <p>Queue Component: {QDetails}</p>
+    </div>
+  );
 }
