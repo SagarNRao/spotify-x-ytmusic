@@ -3,6 +3,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { Metadata } from "next";
 import "./globals.css"
+import { AppProvider } from "./AppContext";
 
 const geistSans = {
   variable: "--font-geist-sans",
@@ -29,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );
