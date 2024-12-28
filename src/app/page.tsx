@@ -11,12 +11,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import Player from "./player";
 import { Button } from "@/components/ui/button";
 import YTMPlayer from "./ytmusic/page";
-import querystring from "querystring";
-import { METHODS } from "http";
-import { headers } from "next/headers";
 import { AppContext } from "./AppContext";
 import Queue from "@/components/sections/queue";
 
@@ -44,9 +51,6 @@ interface YTMTrack {
   finalTitle: string;
   finalID: string;
 }
-
-// eslint-disable-next-line prefer-const
-let results: Track[] = [];
 
 interface PlayProps {
   SongURI: string;
@@ -97,14 +101,11 @@ const Play: React.FC<PlayProps> = ({ SongURI }) => {
   );
 };
 
-export let queueDetails = "";
-
 export default function Home() {
   const [inputData, setInputData] = useState("");
   const [res, setRes] = useState("");
   const [codeVerifier, setCodeVerifier] = useState("");
 
-  const [test, setTest] = useState("no");
 
   const ClientSecret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
   const CLIENTID = process.env.NEXT_PUBLIC_CLIENT_ID;
@@ -112,13 +113,13 @@ export default function Home() {
   const RESPONSE_TYPE = "code";
   const REDIRECT_URI = "http://localhost:3000";
   const SCOPES =
-    "user-read-private user-read-email user-top-read user-read-currently-playing user-read-playback-state";
+    "user-read-private user-read-email user-top-read user-read-currently-playing user-read-playback-state user-modify-playback-state";
 
   // eslint-disable-next-line no-var
   let urlCode: string;
 
   const [token, setToken] = useState<string | null>(null);
-  const [searchType, setSearchType] = useState<string | null>("track");
+  const [searchType, setSearchType] = useState<string | null>(null);
   const [SearchKey, setSearchKey] = useState<string>("");
   const [TrackSearchResults, setTrackSearchResults] = useState<Track[]>([]);
   const [YTMResults, setYTMResults] = useState<YTMTrack[]>([]);
@@ -128,6 +129,7 @@ export default function Home() {
   const [SongURI, setSongURI] = useState<string | null>(null);
 
   const [searchEngine, setSearchEngine] = useState<string>();
+  const [spotSongAdd, setSpotSongAdd] = useState<string>();
 
   // const [Load]
 
@@ -183,7 +185,31 @@ export default function Home() {
     }
   };
 
+  const getQ = async () => {
+    const data = await axios.get("https://api.spotify.com/v1/me/player/queue", {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("access_token")}`,
+      },
+    });
 
+    console.log("GUYS DATA: ", data);
+    setQDetails(JSON.stringify(data));
+  };
+
+  const addQSpotify = async (uri: string) => {
+    const response = await fetch(
+      `https://api.spotify.com/v1/me/player/queue?uri=${encodeURIComponent(
+        uri
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
 
   const Feed = (SearchResult: string) => {
     if (searchEngine == "Spotify") {
@@ -236,6 +262,37 @@ export default function Home() {
 
       console.log("YTM Search results: ", YTMResults);
     }
+  };
+
+  const setCode = async () => {
+    const queryString = window.location.search;
+
+    if (queryString.length > 0) {
+      const urlParams = new URLSearchParams(queryString);
+
+      urlCode = urlParams.get("code") as string;
+      console.log("URL CODE HERE ", urlCode);
+    }
+  };
+
+  const getAccessToken = async () => {
+    const response = await axios.post(
+      "https://accounts.spotify.com/api/token",
+
+      new URLSearchParams({
+        grant_type: "authorization_code",
+        code: urlCode,
+        // redirect_uri: REDIRECT_URI,
+        // client_id: ClientID,
+        // client_secret: ClientSecret,
+      }).toString(),
+
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
   };
 
   const handleCallback = async () => {
@@ -306,7 +363,6 @@ export default function Home() {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }
-    checkCode();
   }, []);
 
   useEffect(() => {
@@ -334,6 +390,7 @@ export default function Home() {
     }) {
       const { access_token, refresh_token, expires_in } = response;
       localStorage.setItem("access_token", access_token);
+      setToken(localStorage.getItem("access_token"));
       localStorage.setItem("refresh_token", refresh_token);
       localStorage.setItem("expires_in", expires_in.toString());
 
@@ -363,8 +420,6 @@ export default function Home() {
     } else {
       console.error("no code");
     }
-
-    setToken(window.localStorage.getItem("access_token"));
   }
 
   // useEffect(() => {
@@ -447,28 +502,12 @@ export default function Home() {
     window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
   }
 
-  const getQ = async () => {
-    queueDetails = await axios.get(
-      "https://api.spotify.com/v1/me/player/queue",
-      {
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem(
-            "access_token"
-          )}`,
-        },
-      }
-    );
-
-    console.log("GUYS DATA: ", queueDetails);
-  };
-
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       {!token ? (
         <>
           <Button onClick={redirectToSpotifyAuthorize}>Login to Spotify</Button>
           <Button onClick={checkCode}>Check Code</Button>
-          {test}
         </>
       ) : (
         <>
@@ -481,7 +520,20 @@ export default function Home() {
                   value={SearchKey}
                   onChange={(e) => setSearchKey(e.target.value)}
                 />
-                <div className="max-w-full"></div>
+                <div className="max-w-full">
+                  <DropdownMenu
+                    options={[
+                      "album",
+                      "artist",
+                      "playlist",
+                      "track",
+                      "show",
+                      "episode",
+                      "audiobook",
+                    ]}
+                    onSelect={(option) => setSearchType(option)}
+                  />
+                </div>
                 <div className="flex">
                   <Button
                     type="submit"
@@ -518,6 +570,9 @@ export default function Home() {
                     </CardDescription>
                     <CardDescription>
                       <Play SongURI={track.uri} />
+                      <Button onClick={() => addQSpotify(track.uri)}>
+                        Add to Queue
+                      </Button>
                     </CardDescription>
                   </>
                 </Card>
@@ -534,17 +589,18 @@ export default function Home() {
                     </Card>
                   ))
                 ) : (
-                  <p>o no</p>
+                  <div></div>
                 )}
               </div>
             )}
           </div>
+
+          <Queue />
+          <Button onClick={getQ}>Get queue details</Button>
         </>
 
         // Search results will be displayed here
       )}
-      <Queue/>
-      <Button onClick={getQ}>Get queue details</Button>
     </div>
   );
 }
