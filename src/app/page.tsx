@@ -27,6 +27,14 @@ import YTMPlayer from "./ytmusic/page";
 import { AppContext } from "./AppContext";
 import Queue from "@/components/sections/queue";
 
+interface Song {
+  platform: string;
+  uri: string | null;
+  id: string | null;
+  name: string;
+  duration: number;
+}
+
 interface Artist {
   name: string;
 }
@@ -52,16 +60,24 @@ interface YTMTrack {
   finalID: string;
 }
 
+interface YouTubeVideo {
+  items: {
+    id: string;
+    contentDetails: {
+      duration: string;
+    };
+  }[];
+}
+
 interface PlayProps {
   SongURI: string;
 }
 
+// fuck you its a personal project
+let YTMSearchResults;
+
 const Play: React.FC<PlayProps> = ({ SongURI }) => {
   const [res, setRes] = useState("");
-
-  // console.log("SongURI", SongURI);
-
-  // const searchURI = "spotify:track:" + SongURI;
 
   const PlaySong = async () => {
     if (!SongURI) {
@@ -102,10 +118,12 @@ const Play: React.FC<PlayProps> = ({ SongURI }) => {
 };
 
 export default function Home() {
+  // eslint-disable-next-line prefer-const
+  let Qcounter = 0;
+
   const [inputData, setInputData] = useState("");
   const [res, setRes] = useState("");
   const [codeVerifier, setCodeVerifier] = useState("");
-
 
   const ClientSecret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
   const CLIENTID = process.env.NEXT_PUBLIC_CLIENT_ID;
@@ -139,7 +157,7 @@ export default function Home() {
     throw new Error("AppContext must be used within an AppProvider");
   }
 
-  const { QDetails, setQDetails } = context;
+  const { QDetails, setQDetails, songs, setSongs } = context;
 
   const Search = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -171,8 +189,8 @@ export default function Home() {
       console.log("YTM Search");
       event.preventDefault();
       try {
-        const { data } = await axios.get(
-          `https://www.googleapis.com/youtube/v3/search/?key=${process.env.NEXT_PUBLIC_YTDATA_API_KEY}&q=${SearchKey}&part=snippet`
+        const data = await axios.get(
+          `https://www.googleapis.com/youtube/v3/search/?key=${process.env.NEXT_PUBLIC_YTDATA_API_KEY}&q=${SearchKey}&part=snippet&videoDuration=any`
         );
         console.log("calling that feed function");
         Feed(JSON.stringify(data));
@@ -209,6 +227,55 @@ export default function Home() {
         },
       }
     );
+
+    Qcounter++;
+    getQ();
+  };
+
+  const addQYTM = async (videoID: string) => {
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/videos?id=${videoID}&part=contentDetails&key=${process.env.NEXT_PUBLIC_YTDATA_API_KEY}`
+    );
+
+    const data: YouTubeVideo = await response.json();
+    function isoDurationToMilliseconds(duration: string): number {
+      const durationRegex = /P(?:\d+Y)?(?:\d+M)?(?:\d+W)?(?:\d+D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?/;
+      const match = duration.match(durationRegex);
+  
+      if (!match) {
+          throw new Error("Invalid ISO 8601 duration format");
+      }
+  
+      const hours = parseInt(match[1] || "0", 10);
+      const minutes = parseInt(match[2] || "0", 10);
+      const seconds = parseInt(match[3] || "0", 10);
+  
+      // Convert to milliseconds
+      return (
+          (hours * 60 * 60 * 1000) +
+          (minutes * 60 * 1000) +
+          (seconds * 1000)
+      );
+  }
+
+    const duration = isoDurationToMilliseconds(
+      data.items[0]?.contentDetails?.duration
+    );
+
+    const video = YTMResults.find((video) => video.finalID == videoID);
+    const title = video ? video.finalTitle : "Not found";
+
+    const songsArray = [...songs];
+
+    songsArray.splice(Qcounter, 0, {
+      platform: "YTM",
+      uri: null,
+      id: videoID,
+      name: title,
+      duration: duration,
+    });
+    setSongs(songsArray)
+    console.log(songs)
   };
 
   const Feed = (SearchResult: string) => {
@@ -242,7 +309,7 @@ export default function Home() {
       console.log("using", searchEngine);
       const ParsedData = JSON.parse(SearchResult);
       console.log("ParsedData HERE: ", ParsedData);
-      const results: YTMTrack[] = ParsedData.items.map((item: YTMTrack) => {
+      const results: YTMTrack[] = ParsedData.data.items.map((item: YTMTrack) => {
         const title = item.snippet.title;
         const videoId = item.id.videoId;
 
@@ -568,8 +635,9 @@ export default function Home() {
                         </span>
                       ))}
                     </CardDescription>
-                    <CardDescription>
+                    <CardDescription className="flex">
                       <Play SongURI={track.uri} />
+                      <div className="p-1"></div>
                       <Button onClick={() => addQSpotify(track.uri)}>
                         Add to Queue
                       </Button>
@@ -586,6 +654,7 @@ export default function Home() {
                         Name={track.finalTitle}
                         videoID={track.finalID}
                       ></YTMPlayer>
+                      <Button onClick={()=>addQYTM(track.finalID)}>Add to Queue</Button>
                     </Card>
                   ))
                 ) : (

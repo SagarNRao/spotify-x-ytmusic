@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { AppContext } from "@/app/AppContext";
 import {
   Card,
@@ -53,34 +53,39 @@ export default function Queue() {
   }
   const { QDetails, songs, setSongs } = context;
 
-  useEffect(() => {
-    if (QDetails) {
-      const spotifyData: SpotifyResponse = JSON.parse(QDetails);
+  const newSongs: Song[] = useMemo(() => {
+    if (!QDetails) return [];
 
-      const newSongs: Song[] = [];
+    const spotifyData: SpotifyResponse = JSON.parse(QDetails);
 
-      // Add currently playing track to the array
-      newSongs.push({
-        platform: "Spotify",
-        uri: spotifyData.data.currently_playing.uri?.split(":").pop() || null,
-        id: null,
-        name: spotifyData.data.currently_playing.name,
-        duration: spotifyData.data.currently_playing.duration_ms,
-      });
+    const songsArray: Song[] = [];
 
-      // Add queued tracks to the array
-      spotifyData.data.queue.forEach((track) => {
-        newSongs.push({
+    // Add currently playing track to the array
+    songsArray.push({
+      platform: "Spotify",
+      uri: spotifyData.data.currently_playing.uri?.split(":").pop() || null,
+      id: null,
+      name: spotifyData.data.currently_playing.name,
+      duration: spotifyData.data.currently_playing.duration_ms,
+    });
+
+    // Add queued tracks to the array
+    spotifyData.data.queue.forEach((track) => {
+      if (track.uri != null)
+      {
+        songsArray.push({
           platform: "Spotify",
           uri: track.uri?.split(":").pop() || null,
           id: null,
           name: track.name,
           duration: track.duration_ms,
         });
-      });
+      }
+      
+    });
 
-      setSongs(newSongs);
-    }
+    setSongs(songsArray);
+    return songsArray;
   }, [QDetails, setSongs]);
 
   return (
@@ -94,18 +99,16 @@ export default function Queue() {
         </SheetHeader>
         <ul>
           {songs.map((song, index) => (
-            song.platform === "Spotify" && (
-              <li key={index}>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{song.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>On {song.platform}</CardDescription>
-                  </CardContent>
-                </Card>
-              </li>
-            )
+            <li key={index}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{song.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>On {song.platform}</CardDescription>
+                </CardContent>
+              </Card>
+            </li>
           ))}
         </ul>
       </SheetContent>
