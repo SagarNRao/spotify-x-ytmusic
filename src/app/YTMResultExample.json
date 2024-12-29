@@ -1,52 +1,224 @@
 {
-    "kind": "youtube#searchListResponse",
-    "etag": "6il9yFGY8UjqxGpmZ6aeQgucMUw",
-    "nextPageToken": "CAUQAA",
-    "regionCode": "IN",
-    "pageInfo": {
-        "totalResults": 1000000,
-        "resultsPerPage": 5
+    "data": {
+        "kind": "youtube#searchListResponse",
+        "etag": "V8akrQFP4a3_CR8JTVqDtg-_DdQ",
+        "nextPageToken": "CAUQAA",
+        "regionCode": "IN",
+        "pageInfo": {
+            "totalResults": 1000000,
+            "resultsPerPage": 5
+        },
+        "items": [
+            {
+                "kind": "youtube#searchResult",
+                "etag": "cHWqr4kUUjFMFNc8dBUGnkkR3S0",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "PJXJEogYGjA"
+                },
+                "snippet": {
+                    "publishedAt": "2024-12-28T16:50:39Z",
+                    "channelId": "UC9ojDGjDozoskCUmD3e5omg",
+                    "title": "70th BPSC RE EXAM Big Update 🔥: BPSC RE Exam और छात्रों की माँग पर आया फ़ैसला? | BPSC Wallah",
+                    "description": "70th BPSC Big Update : BPSC RE Exam और छात्रों की माँग पर आया फ़ैसला? | BPSC Wallah 70th ...",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/PJXJEogYGjA/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/PJXJEogYGjA/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/PJXJEogYGjA/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "BPSC Wallah",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2024-12-28T16:50:39Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "3kldlWonXP0r0ZAg6sqNUHqmBAU",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "OEpFiDKqH7E"
+                },
+                "snippet": {
+                    "publishedAt": "2015-01-09T11:57:37Z",
+                    "channelId": "UCbTLwN10NoCU4WDzLf1JMOA",
+                    "title": "Are Re Are Song | Dil To Pagal Hai | Shah Rukh Khan, Madhuri Dixit | Lata Mangeshkar, Udit Narayan",
+                    "description": "That feeling of falling in love often leaves one confused. Enjoy the beautiful song 'Are Re Are' from 'Dil To Pagal Hai'.",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/OEpFiDKqH7E/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/OEpFiDKqH7E/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/OEpFiDKqH7E/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "YRF",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2015-01-09T11:57:37Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "lslA4yxbvsuqe5HNYdOXBb0s6vA",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "gJ4E8UbGv4I"
+                },
+                "snippet": {
+                    "publishedAt": "2017-02-15T06:41:52Z",
+                    "channelId": "UCK9F8nycURBsR0YlrBsu1Ag",
+                    "title": "Re Mama Re Mama Re | Re Mama Re Hindi Rhyme | Children&#39;s Popular Animated hindi Songs",
+                    "description": "Re Mamma Re Mamma Re Lyrics From The Movie Andaz - 1971 रे मामा रे मामा रे ... Sun lo, sunata hu tumko ...",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/gJ4E8UbGv4I/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/gJ4E8UbGv4I/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/gJ4E8UbGv4I/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Jingle Toons",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2017-02-15T06:41:52Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "dZT0M_HeFlvKIL4gcFHT99jkdbw",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "tN1rwWBdXCk"
+                },
+                "snippet": {
+                    "publishedAt": "2021-02-21T10:52:14Z",
+                    "channelId": "UCo6y9hnRawAqtyWhRhblXqg",
+                    "title": "Sanam Re - Actual Meaning 😂 Instagram Reels | Tiktok Viral Comedy | Arijit singh | Dushyant Kukreja",
+                    "description": "Follow us on Instagram - Dushyant Kukreja - https://instagram.com/dushyant.kukreja?igshid=1p1g4fg6j9bms Priyal Kukreja ...",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/tN1rwWBdXCk/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/tN1rwWBdXCk/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/tN1rwWBdXCk/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Dushyant kukreja",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2021-02-21T10:52:14Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "zF0dNUJiPVrOv9SeZt2GZAddN2s",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "aOliIfyH6vI"
+                },
+                "snippet": {
+                    "publishedAt": "2021-12-27T07:30:00Z",
+                    "channelId": "UCq-Fj5jknLsUf-MWSy4_brA",
+                    "title": "Atrangi Re: Rait Zara Si Full Video |@ARRahman|Akshay, Dhanush,Sara,Arijit, Shashaa | Bhushan K",
+                    "description": "Presenting \"Rait Zara Si - Full Video\" from the movie #AtrangiRe Gulshan Kumar & T-Series In association with Aanand L Rai ...",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/aOliIfyH6vI/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/aOliIfyH6vI/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/aOliIfyH6vI/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "T-Series",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2021-12-27T07:30:00Z"
+                }
+            }
+        ]
     },
-    "items": [
-        {
-            "kind": "youtube#searchResult",
-            "etag": "rjOi1NLA4J7eBU91kgUkANfAHEE",
-            "id": {
-                "kind": "youtube#video",
-                "videoId": "lBdnti4_UUg"
-            }
+    "status": 200,
+    "statusText": "",
+    "headers": {
+        "content-encoding": "gzip",
+        "content-length": "1625",
+        "content-type": "application/json; charset=UTF-8",
+        "date": "Sun, 29 Dec 2024 05:29:05 GMT",
+        "server": "scaffolding on HTTPServer2",
+        "vary": "Origin, X-Origin, Referer"
+    },
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
         },
-        {
-            "kind": "youtube#searchResult",
-            "etag": "l-q2isLRYX5CzDzwXIVjIq8S4vU",
-            "id": {
-                "kind": "youtube#video",
-                "videoId": "sfsCHnMmvKs"
-            }
+        "adapter": [
+            "xhr",
+            "http",
+            "fetch"
+        ],
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {},
+        "headers": {
+            "Accept": "application/json, text/plain, */*"
         },
-        {
-            "kind": "youtube#searchResult",
-            "etag": "zPKDKGRhtFxH1F8r2aV3jHHZm0U",
-            "id": {
-                "kind": "youtube#video",
-                "videoId": "b8LT-kobMYs"
-            }
-        },
-        {
-            "kind": "youtube#searchResult",
-            "etag": "BQRw1gqW25FBCovsXvQMHzsbMOI",
-            "id": {
-                "kind": "youtube#video",
-                "videoId": "1k7eI861Eas"
-            }
-        },
-        {
-            "kind": "youtube#searchResult",
-            "etag": "zUoiRQpfmoJdCYoMsy9DhQcio-U",
-            "id": {
-                "kind": "youtube#video",
-                "videoId": "lYKweh-r-Yk"
-            }
-        }
-    ]
+        "method": "get",
+        "url": "https://www.googleapis.com/youtube/v3/search/?key=AIzaSyB5ZAgrVpwQPQ9-azlbQ80lMTsGP2kbzmk&q=re&part=snippet&videoDuration=any"
+    },
+    "request": {}
 }
