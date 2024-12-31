@@ -186,30 +186,6 @@ export default function Home() {
     getQ();
   };
 
-  // const nextSong = async(song: Track | YTMTrack) => {
-  //   if ((song as Track).uri !== undefined) {
-  //     // then its a YTMTrack
-  //     getQ();
-  //     return (
-  //       <p>Spotify song playing now</p>
-  //     )
-  //   }
-  //   else {
-  //     const response = await fetch(
-  //       "https://api.spotify.com/v1/me/player/pause",
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     getQ();
-  //   }
-  // }
-
   const addQYTM = async (videoID: string) => {
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/videos?id=${videoID}&part=contentDetails&key=${process.env.NEXT_PUBLIC_YTDATA_API_KEY}`

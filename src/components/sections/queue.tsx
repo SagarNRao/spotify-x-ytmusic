@@ -70,6 +70,8 @@ export default function Queue() {
     setToken,
     SongURI,
     setSongURI,
+    playingOrNah,
+    setPlayingOrNah
   } = context;
 
   const newSongs: Song[] = useMemo(() => {
@@ -133,8 +135,7 @@ export default function Queue() {
         setActivePlatform("Spotify");
         setYTMTrackID(songs[i].id as string);
         setYTMTrackName(songs[i].name);
-        await wait(songs[i].duration);
-        songs.shift();
+        await wait(songs[i].duration + 2000);
         const response = await fetch(
           "https://api.spotify.com/v1/me/player/pause",
           {
@@ -145,11 +146,22 @@ export default function Queue() {
             },
           }
         );
+        songs.shift();
         setActivePlatform("YTM");
+
+        setPlayingOrNah(true);
       }
-      if (activePlatform == "YTM") {
-        await songs[i].duration;
-      }
+      // if (activePlatform == "YTM") {
+      //   await songs[i].duration;
+      //   if (songs[i + 1].platform == "YTM")
+      //   {
+
+      //   }
+      //   else
+      //   {
+      //     setActivePlatform("Spotify")
+      //   }
+      // }
     }
   };
 
