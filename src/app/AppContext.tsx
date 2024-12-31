@@ -27,6 +27,8 @@ interface AppContextProps {
   setToken: (value: string) => void;
   SongURI: string | null;
   setSongURI: (value: string) => void;
+  playingOrNah: boolean;
+  setPlayingOrNah: (value: boolean) => void;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -43,6 +45,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   });
   const [token, setToken] = useState<string | null>(null);
   const [SongURI, setSongURI] = useState<string | null>(null);
+  const [playingOrNah, setPlayingOrNah] = useState(false);
 
   return (
     <AppContext.Provider
@@ -56,7 +59,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         token,
         setToken,
         SongURI,
-        setSongURI
+        setSongURI,
+        playingOrNah,
+        setPlayingOrNah
       }}
     >
       {children}
