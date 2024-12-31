@@ -23,9 +23,11 @@ import {
 } from "@/components/ui/sheet";
 import Player from "./player";
 import { Button } from "@/components/ui/button";
-import YTMPlayer from "./ytmusic/page";
+import YTMPlayer from "@/components/sections/YTMPlayer";
 import { AppContext } from "./AppContext";
 import Queue from "@/components/sections/queue";
+import { METHODS } from "http";
+import Play from "@/components/sections/play";
 
 interface Song {
   platform: string;
@@ -69,54 +71,6 @@ interface YouTubeVideo {
   }[];
 }
 
-interface PlayProps {
-  SongURI: string;
-}
-
-// fuck you its a personal project
-let YTMSearchResults;
-
-const Play: React.FC<PlayProps> = ({ SongURI }) => {
-  const [res, setRes] = useState("");
-
-  const PlaySong = async () => {
-    if (!SongURI) {
-      console.error("SongURI not defined");
-      return;
-    }
-
-    try {
-      console.log("calling");
-      const response = await fetch("http://localhost:5000/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ data: SongURI }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.text();
-      setRes(result);
-      console.log(result);
-    } catch (error) {
-      console.error("Error:", error);
-      setRes("Error fetching data from Python server");
-    }
-  };
-
-  return (
-    <>
-      <div>
-        <Button onClick={PlaySong}>Play</Button>
-      </div>
-    </>
-  );
-};
-
 export default function Home() {
   // eslint-disable-next-line prefer-const
   let Qcounter = 0;
@@ -136,15 +90,13 @@ export default function Home() {
   // eslint-disable-next-line no-var
   let urlCode: string;
 
-  const [token, setToken] = useState<string | null>(null);
   const [searchType, setSearchType] = useState<string | null>(null);
   const [SearchKey, setSearchKey] = useState<string>("");
   const [TrackSearchResults, setTrackSearchResults] = useState<Track[]>([]);
   const [YTMResults, setYTMResults] = useState<YTMTrack[]>([]);
-  const [playingTrack, setPlayingTrack] = useState();
+  const [playingTrack, setPlayingTrack] = useState<boolean>(false);
 
   const [artist, setArtist] = useState<string | null>(null);
-  const [SongURI, setSongURI] = useState<string | null>(null);
 
   const [searchEngine, setSearchEngine] = useState<string>();
   const [spotSongAdd, setSpotSongAdd] = useState<string>();
@@ -157,7 +109,9 @@ export default function Home() {
     throw new Error("AppContext must be used within an AppProvider");
   }
 
-  const { QDetails, setQDetails, songs, setSongs } = context;
+  const { QDetails, setQDetails, songs, setSongs, actions, setActions, token, setToken, SongURI, setSongURI } = context;
+
+  
 
   const Search = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -232,6 +186,30 @@ export default function Home() {
     getQ();
   };
 
+  // const nextSong = async(song: Track | YTMTrack) => {
+  //   if ((song as Track).uri !== undefined) {
+  //     // then its a YTMTrack
+  //     getQ();
+  //     return (
+  //       <p>Spotify song playing now</p>
+  //     )
+  //   }
+  //   else {
+  //     const response = await fetch(
+  //       "https://api.spotify.com/v1/me/player/pause",
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     getQ();
+  //   }
+  // }
+
   const addQYTM = async (videoID: string) => {
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/videos?id=${videoID}&part=contentDetails&key=${process.env.NEXT_PUBLIC_YTDATA_API_KEY}`
@@ -239,24 +217,21 @@ export default function Home() {
 
     const data: YouTubeVideo = await response.json();
     function isoDurationToMilliseconds(duration: string): number {
-      const durationRegex = /P(?:\d+Y)?(?:\d+M)?(?:\d+W)?(?:\d+D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?/;
+      const durationRegex =
+        /P(?:\d+Y)?(?:\d+M)?(?:\d+W)?(?:\d+D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?/;
       const match = duration.match(durationRegex);
-  
+
       if (!match) {
-          throw new Error("Invalid ISO 8601 duration format");
+        throw new Error("Invalid ISO 8601 duration format");
       }
-  
+
       const hours = parseInt(match[1] || "0", 10);
       const minutes = parseInt(match[2] || "0", 10);
       const seconds = parseInt(match[3] || "0", 10);
-  
+
       // Convert to milliseconds
-      return (
-          (hours * 60 * 60 * 1000) +
-          (minutes * 60 * 1000) +
-          (seconds * 1000)
-      );
-  }
+      return hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000;
+    }
 
     const duration = isoDurationToMilliseconds(
       data.items[0]?.contentDetails?.duration
@@ -267,15 +242,15 @@ export default function Home() {
 
     const songsArray = [...songs];
 
-    songsArray.splice(Qcounter, 0, {
+    songsArray.splice(Qcounter + 1, 0, {
       platform: "YTM",
       uri: null,
       id: videoID,
       name: title,
       duration: duration,
     });
-    setSongs(songsArray)
-    console.log(songs)
+    setSongs(songsArray);
+    console.log(songs);
   };
 
   const Feed = (SearchResult: string) => {
@@ -309,21 +284,23 @@ export default function Home() {
       console.log("using", searchEngine);
       const ParsedData = JSON.parse(SearchResult);
       console.log("ParsedData HERE: ", ParsedData);
-      const results: YTMTrack[] = ParsedData.data.items.map((item: YTMTrack) => {
-        const title = item.snippet.title;
-        const videoId = item.id.videoId;
+      const results: YTMTrack[] = ParsedData.data.items.map(
+        (item: YTMTrack) => {
+          const title = item.snippet.title;
+          const videoId = item.id.videoId;
 
-        return {
-          snippet: {
-            title: title,
-          },
-          id: {
-            videoId: videoId,
-          },
-          finalTitle: title,
-          finalID: videoId,
-        };
-      });
+          return {
+            snippet: {
+              title: title,
+            },
+            id: {
+              videoId: videoId,
+            },
+            finalTitle: title,
+            finalID: videoId,
+          };
+        }
+      );
 
       setYTMResults(results);
 
@@ -457,7 +434,7 @@ export default function Home() {
     }) {
       const { access_token, refresh_token, expires_in } = response;
       localStorage.setItem("access_token", access_token);
-      setToken(localStorage.getItem("access_token"));
+      setToken(localStorage.getItem("access_token") as string);
       localStorage.setItem("refresh_token", refresh_token);
       localStorage.setItem("expires_in", expires_in.toString());
 
@@ -654,7 +631,10 @@ export default function Home() {
                         Name={track.finalTitle}
                         videoID={track.finalID}
                       ></YTMPlayer>
-                      <Button onClick={()=>addQYTM(track.finalID)}>Add to Queue</Button>
+                      <Button onClick={() => addQYTM(track.finalID)}>
+                        Add to Queue
+
+                      </Button>
                     </Card>
                   ))
                 ) : (
@@ -664,8 +644,8 @@ export default function Home() {
             )}
           </div>
 
-          <Queue />
           <Button onClick={getQ}>Get queue details</Button>
+          <Queue />
         </>
 
         // Search results will be displayed here
