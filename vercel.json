@@ -6,7 +6,7 @@
       "NEXT_PUBLIC_YTDATA_API_KEY":"AIzaSyB5ZAgrVpwQPQ9-azlbQ80lMTsGP2kbzmk"
     },
     "commands": {
-      "build": "pnpm run lint && next build"
+      "build": "pnpm run lint && next build" 
     }
   }
 }
