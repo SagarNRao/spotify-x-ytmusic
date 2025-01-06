@@ -109,9 +109,18 @@ export default function Home() {
     throw new Error("AppContext must be used within an AppProvider");
   }
 
-  const { QDetails, setQDetails, songs, setSongs, actions, setActions, token, setToken, SongURI, setSongURI } = context;
-
-  
+  const {
+    QDetails,
+    setQDetails,
+    songs,
+    setSongs,
+    actions,
+    setActions,
+    token,
+    setToken,
+    SongURI,
+    setSongURI,
+  } = context;
 
   const Search = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -421,8 +430,12 @@ export default function Home() {
   };
 
   // On page load, try to fetch auth code from current browser search URL
-  const args = new URLSearchParams(window.location.search);
-  const code = args.get("code");
+  let args: URLSearchParams | undefined;
+
+  if (typeof window !== "undefined") {
+    args = new URLSearchParams(window.location.search);
+  }
+  const code = args?.get("code");
 
   async function checkCode() {
     console.log("CODE HERE", code);
@@ -609,7 +622,6 @@ export default function Home() {
                       ></YTMPlayer>
                       <Button onClick={() => addQYTM(track.finalID)}>
                         Add to Queue
-
                       </Button>
                     </Card>
                   ))
