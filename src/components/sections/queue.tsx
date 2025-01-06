@@ -135,7 +135,8 @@ export default function Queue() {
         setActivePlatform("Spotify");
         setYTMTrackID(songs[i].id as string);
         setYTMTrackName(songs[i].name);
-        await wait(songs[i].duration + 2000);
+        getQRe();
+        await wait(songs[i].duration);
         const response = await fetch(
           "https://api.spotify.com/v1/me/player/pause",
           {
