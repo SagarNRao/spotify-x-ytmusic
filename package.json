@@ -5,10 +5,9 @@
   "proxy": "http://localhost:5000",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npm run copy-manifest",
+    "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx, next lint",
-    "copy-manifest": "copy .\\manifest.json .\\dist\\"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx, next lint"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.4",
