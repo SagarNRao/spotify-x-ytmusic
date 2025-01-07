@@ -1,17 +1,19 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+// src/app/layout.tsx
+import React from "react";
+import { Provider } from "react-redux";
+import { Metadata } from "next";
+import "./globals.css"
+import { AppProvider } from "./AppContext";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const geistSans = {
   variable: "--font-geist-sans",
   weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+};
+
+const geistMono = {
   variable: "--font-geist-mono",
   weight: "100 900",
-});
+};
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );

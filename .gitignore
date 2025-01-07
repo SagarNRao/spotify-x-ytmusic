@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/flask-server
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -34,3 +35,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.env
+/access.json
+.json
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+.vercel
+/.next
