@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/flask-server
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -43,3 +44,5 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+.vercel
