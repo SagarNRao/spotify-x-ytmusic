@@ -119,6 +119,8 @@ export default function Queue() {
     setQDetails(JSON.stringify(data));
   };
 
+  // need to periodically update the songs array
+
   const timeSkippyBoi = async () => {
     const wait = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
