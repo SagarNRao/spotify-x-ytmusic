@@ -29,6 +29,10 @@ interface AppContextProps {
   setSongURI: (value: string) => void;
   playingOrNah: boolean;
   setPlayingOrNah: (value: boolean) => void;
+  currentSong: Song | null;
+  setCurrentSong: (value: Song | null) => void;
+  currentPlaybackDuration: number;
+  setCurrentPlaybackDuration: (value: number) => void;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -46,6 +50,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [token, setToken] = useState<string | null>(null);
   const [SongURI, setSongURI] = useState<string | null>(null);
   const [playingOrNah, setPlayingOrNah] = useState(false);
+  const [currentPlaybackDuration, setCurrentPlaybackDuration] = useState(-1);
+  const [currentSong, setCurrentSong] = useState<Song | null>(null);
 
   return (
     <AppContext.Provider
@@ -61,7 +67,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         SongURI,
         setSongURI,
         playingOrNah,
-        setPlayingOrNah
+        setPlayingOrNah,
+        currentPlaybackDuration,
+        setCurrentPlaybackDuration,
+        currentSong,
+        setCurrentSong
       }}
     >
       {children}

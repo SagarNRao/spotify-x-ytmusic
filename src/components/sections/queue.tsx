@@ -47,12 +47,19 @@ interface SpotifyResponse {
   };
 }
 
+interface currentDurationResponse {
+  data: {
+    progress_ms: number;
+  };
+}
+
 const mixQ: Song[] = [];
 
 export default function Queue() {
   const [activePlatform, setActivePlatform] = useState("Spotify");
   const [YTMTrackID, setYTMTrackID] = useState("");
   const [YTMTrackName, setYTMTrackName] = useState("");
+  const [timeLeft, setTimeLeft] = useState(-1);
 
   const context = useContext(AppContext);
 
@@ -71,7 +78,9 @@ export default function Queue() {
     SongURI,
     setSongURI,
     playingOrNah,
-    setPlayingOrNah
+    setPlayingOrNah,
+    currentPlaybackDuration,
+    setCurrentPlaybackDuration,
   } = context;
 
   const newSongs: Song[] = useMemo(() => {
@@ -119,9 +128,35 @@ export default function Queue() {
     setQDetails(JSON.stringify(data));
   };
 
+  const getSpotifyCurrentDuration = async () => {
+    const data = await axios.get("https://api.spotify.com/v1/me/player", {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("access_token")}`,
+      },
+    });
+    const parsedData: currentDurationResponse = JSON.parse(
+      JSON.stringify(data)
+    );
+
+    const currentDuration = parsedData.data.progress_ms;
+
+    try {
+      if (songs[0].duration != undefined) {
+        setTimeLeft(songs[0].duration - currentDuration);
+        console.log(timeLeft);
+      }
+    } catch (e) {
+      console.log("songs[0].duration is undefined")
+    }
+
+    if (timeLeft > 0 && timeLeft < 1000) {
+      await timeSkippyBoi(timeLeft);
+    }
+  };
+
   // need to periodically update the songs array
 
-  const timeSkippyBoi = async () => {
+  const timeSkippyBoi = async (time: number) => {
     const wait = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -138,7 +173,7 @@ export default function Queue() {
         setYTMTrackID(songs[i].id as string);
         setYTMTrackName(songs[i].name);
         getQRe();
-        await wait(songs[i].duration);
+        await wait(time);
         const response = await fetch(
           "https://api.spotify.com/v1/me/player/pause",
           {
@@ -169,11 +204,12 @@ export default function Queue() {
   };
 
   useEffect(() => {
-    if (songs[0] && songs[0].platform != undefined) {
-      timeSkippyBoi();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activePlatform, QDetails, songs]);
+    const interval = setInterval(() => {
+      getSpotifyCurrentDuration();
+    }, 1000); // 20000 milliseconds = 20 seconds
+
+    return () => clearInterval(interval); // Cleanup the interval on component unmount
+  }, [songs, timeLeft]);
 
   return (
     <section className="flex">
@@ -205,7 +241,10 @@ export default function Queue() {
       </div>
       <div className="box">
         {activePlatform == "Spotify" ? (
-          <p>Playing from Spotify</p>
+          <>
+            <Button onClick={getSpotifyCurrentDuration}>Here</Button>
+            <p>Playing from Spotify</p>
+          </>
         ) : (
           <>
             <p>Playing from YTM</p>
