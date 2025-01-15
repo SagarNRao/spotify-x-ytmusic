@@ -21,9 +21,16 @@ import { AppContext } from "@/app/AppContext";
 interface YTMProps {
   videoID: string;
   Name: string;
+  playing: boolean;
+  setPlayingState: (videoID: string, isPlaying: boolean) => void;
 }
 
-const YTMPlayer: React.FC<YTMProps> = ({ videoID, Name }) => {
+const YTMPlayer: React.FC<YTMProps> = ({
+  videoID,
+  Name,
+  playing,
+  setPlayingState,
+}) => {
   const context = useContext(AppContext);
 
   if (!context) {
@@ -41,13 +48,13 @@ const YTMPlayer: React.FC<YTMProps> = ({ videoID, Name }) => {
     SongURI,
     setSongURI,
     playingOrNah,
-    setPlayingOrNah
+    setPlayingOrNah,
   } = context;
   return (
     <Card>
       <CardHeader>{Name}</CardHeader>
       <ReactPlayer
-        playing={playingOrNah}
+        playing={playing}
         url={`https://www.youtube.com/watch?v=${videoID}`}
         width={"447px"}
         height={"245px"}
@@ -55,7 +62,7 @@ const YTMPlayer: React.FC<YTMProps> = ({ videoID, Name }) => {
       {playingOrNah == false ? (
         <Button
           onClick={() => {
-            setPlayingOrNah(true);
+            setPlayingState(videoID, true);
           }}
         >
           Play
@@ -63,7 +70,7 @@ const YTMPlayer: React.FC<YTMProps> = ({ videoID, Name }) => {
       ) : (
         <Button
           onClick={() => {
-            setPlayingOrNah(false);
+            setPlayingState(videoID, true);
           }}
         >
           Pause
