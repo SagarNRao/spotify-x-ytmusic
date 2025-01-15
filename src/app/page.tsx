@@ -122,6 +122,17 @@ export default function Home() {
     setSongURI,
   } = context;
 
+  const [playingStates, setPlayingStates] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const setPlayingState = (videoID: string, isPlaying: boolean) => {
+    setPlayingStates((prevStates) => ({
+      ...prevStates,
+      [videoID]: isPlaying,
+    }));
+  };
+
   const Search = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchEngine == "Spotify") {
@@ -619,7 +630,9 @@ export default function Home() {
                       <YTMPlayer
                         Name={track.finalTitle}
                         videoID={track.finalID}
-                      ></YTMPlayer>
+                        playing={!!playingStates[track.finalID as string]}
+                        setPlayingState={setPlayingState}
+                      />
                       <Button onClick={() => addQYTM(track.finalID)}>
                         Add to Queue
                       </Button>

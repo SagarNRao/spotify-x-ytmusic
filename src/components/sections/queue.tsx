@@ -61,6 +61,8 @@ export default function Queue() {
   const [YTMTrackName, setYTMTrackName] = useState("");
   const [timeLeft, setTimeLeft] = useState(-1);
 
+  const [playing, setPlaying] = useState<boolean>();
+
   const context = useContext(AppContext);
 
   if (!context) {
@@ -111,7 +113,6 @@ export default function Queue() {
         });
       }
     });
-
     setSongs(songsArray);
     return songsArray;
   }, [QDetails, setSongs]);
@@ -146,7 +147,7 @@ export default function Queue() {
         console.log(timeLeft);
       }
     } catch (e) {
-      console.log("songs[0].duration is undefined")
+      console.log("songs[0].duration is undefined");
     }
 
     if (timeLeft > 0 && timeLeft < 1000) {
@@ -166,6 +167,7 @@ export default function Queue() {
       i++ // let it be up to 100 for now ill take care of it later
     ) {
       if (
+        // spotify to YTM
         songs[i].platform == "Spotify" &&
         songs[i + 1].platform != "Spotify"
       ) {
@@ -188,18 +190,40 @@ export default function Queue() {
         setActivePlatform("YTM");
 
         setPlayingOrNah(true);
+      } else if (playing == false) {
+        continue;
       }
-      // if (activePlatform == "YTM") {
-      //   await songs[i].duration;
-      //   if (songs[i + 1].platform == "YTM")
-      //   {
+      if (activePlatform == "YTM") {
+        // YTM to YTM
+        await songs[i].duration;
+        if (songs[i + 1].platform == "YTM") {
+          await songs[i].duration;
+        } else if (songs[i + 1].platform == "Spotify") {
+          setActivePlatform("Spotify");
+          setPlayingOrNah(false);
+        }
+      }
+    }
+  };
 
-      //   }
-      //   else
-      //   {
-      //     setActivePlatform("Spotify")
-      //   }
-      // }
+  // ill add this later
+  // const pausePlay = async () => {};
+
+  const skipToNext = async () => {
+    if (songs[1].platform == "Spotify") {
+      setTimeLeft(-1);
+      const data = await fetch("https://api.spotify.com/v1/me/player/next", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      getSpotifyCurrentDuration();
+    } else {
+      // pause logic
+      // wait for YTM song to finish logic
+      // resume logic
     }
   };
 
@@ -220,7 +244,8 @@ export default function Queue() {
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <h2>Songs</h2>
+              <SheetTitle>Queue</SheetTitle>
+              <SheetDescription></SheetDescription>
             </SheetHeader>
             <ul>
               {songs.map((song, index) => (
@@ -242,15 +267,14 @@ export default function Queue() {
       <div className="box">
         {activePlatform == "Spotify" ? (
           <>
-            <Button onClick={getSpotifyCurrentDuration}>Here</Button>
             <p>Playing from Spotify</p>
           </>
         ) : (
           <>
             <p>Playing from YTM</p>
-            <YTMPlayer videoID={YTMTrackID} Name={YTMTrackName}></YTMPlayer>
           </>
         )}
+        <Button onClick={skipToNext}>Next</Button>
       </div>
     </section>
   );
