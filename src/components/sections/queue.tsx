@@ -60,7 +60,6 @@ export default function Queue() {
   const [YTMTrackID, setYTMTrackID] = useState("");
   const [YTMTrackName, setYTMTrackName] = useState("");
   const [timeLeft, setTimeLeft] = useState(-1);
-
   const [playing, setPlaying] = useState<boolean>();
 
   const context = useContext(AppContext);
@@ -83,10 +82,14 @@ export default function Queue() {
     setPlayingOrNah,
     currentPlaybackDuration,
     setCurrentPlaybackDuration,
+    playingYTM,
+    setPlayingYTM,
   } = context;
 
   const newSongs: Song[] = useMemo(() => {
     if (!QDetails) return [];
+
+    let counter = 0;
 
     const spotifyData: SpotifyResponse = JSON.parse(QDetails);
 
@@ -118,7 +121,6 @@ export default function Queue() {
   }, [QDetails, setSongs]);
 
   const getQRe = async () => {
-    // yes yes i know ill change it later
     const data = await axios.get("https://api.spotify.com/v1/me/player/queue", {
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem("access_token")}`,
@@ -154,8 +156,6 @@ export default function Queue() {
       await timeSkippyBoi(timeLeft);
     }
   };
-
-  // need to periodically update the songs array
 
   const timeSkippyBoi = async (time: number) => {
     const wait = (ms: number) =>
@@ -206,34 +206,80 @@ export default function Queue() {
     }
   };
 
-  // ill add this later
-  // const pausePlay = async () => {};
+  const thisShouldntBeHere = async () => {
+    const data = await fetch("https://api.spotify.com/v1/me/player/pause", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+  };
 
   const skipToNext = async () => {
-    if (songs[1].platform == "Spotify") {
+    songs.shift();
+
+    if (songs[0].platform == "Spotify") {
       setTimeLeft(-1);
-      const data = await fetch("https://api.spotify.com/v1/me/player/next", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      try {
+        const pauseData = await fetch("https://api.spotify.com/v1/me/player/pause", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await fetch("https://api.spotify.com/v1/me/player/next", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        console.error("Error skipping to next track:", error);
+      }
       getSpotifyCurrentDuration();
-    } else {
-      // pause logic
-      // wait for YTM song to finish logic
-      // resume logic
+    } else if (
+      songs[1].platform == "YTM" ||
+      songs[0].platform == "YTM" ||
+      activePlatform == "YTM"
+    ) {
+      try {
+        const data = await fetch("https://api.spotify.com/v1/me/player/pause", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        console.error("Error pausing Spotify player:", error);
+      }
+
+      songs.shift();
+
+      setActivePlatform("YTM");
+      setPlayingOrNah(true);
+      setPlayingYTM({
+        title: songs[0]?.name,
+        link: songs[0]?.id || "",
+      });
     }
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       getSpotifyCurrentDuration();
-    }, 1000); // 20000 milliseconds = 20 seconds
+    }, 1000);
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
   }, [songs, timeLeft]);
+
+  useEffect(() => {
+    console.log(`Active platform changed to: ${activePlatform}`);
+  }, [songs, activePlatform]);
 
   return (
     <section className="flex">
@@ -271,7 +317,13 @@ export default function Queue() {
           </>
         ) : (
           <>
-            <p>Playing from YTM</p>
+            {playingYTM?.title}
+            <YTMPlayer
+              Name={playingYTM?.title || null}
+              videoID={playingYTM?.link || null}
+              playing={true}
+              setPlayingState={null}
+            ></YTMPlayer>
           </>
         )}
         <Button onClick={skipToNext}>Next</Button>

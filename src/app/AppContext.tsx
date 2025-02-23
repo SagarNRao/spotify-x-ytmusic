@@ -16,6 +16,11 @@ interface Actions {
   // playPrev: boolean; ill add this later
 }
 
+interface YTMSong {
+  title: string;
+  link: string;
+}
+
 interface AppContextProps {
   QDetails: string | null;
   setQDetails: (value: string) => void;
@@ -33,6 +38,10 @@ interface AppContextProps {
   setCurrentSong: (value: Song | null) => void;
   currentPlaybackDuration: number;
   setCurrentPlaybackDuration: (value: number) => void;
+  playingStates: { [key: string]: boolean };
+  setPlayingStates: (value: { [key: string]: boolean }) => void;
+  playingYTM: YTMSong | null;
+  setPlayingYTM: (value: YTMSong | null) => void;
 }
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -52,6 +61,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [playingOrNah, setPlayingOrNah] = useState(false);
   const [currentPlaybackDuration, setCurrentPlaybackDuration] = useState(-1);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
+  const [playingStates, setPlayingStates] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [playingYTM, setPlayingYTM] = useState<YTMSong | null>(null);
 
   return (
     <AppContext.Provider
@@ -71,7 +84,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         currentPlaybackDuration,
         setCurrentPlaybackDuration,
         currentSong,
-        setCurrentSong
+        setCurrentSong,
+        playingStates,
+        setPlayingStates,
+        playingYTM,
+        setPlayingYTM,
       }}
     >
       {children}
