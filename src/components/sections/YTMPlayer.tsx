@@ -19,10 +19,10 @@ import { useState, useContext } from "react";
 import { AppContext } from "@/app/AppContext";
 
 interface YTMProps {
-  videoID: string | null;
-  Name: string | null;
-  playing: boolean | null;
-  setPlayingState: ((videoID: string, isPlaying: boolean) => void) | null;
+  videoID: string;
+  Name: string;
+  playing: boolean;
+  setPlayingState: (videoID: string, isPlaying: boolean) => void;
 }
 
 const YTMPlayer: React.FC<YTMProps> = ({
@@ -49,26 +49,12 @@ const YTMPlayer: React.FC<YTMProps> = ({
     setSongURI,
     playingOrNah,
     setPlayingOrNah,
-    playingYTM,
-    setPlayingYTM,
   } = context;
-
-  const handlePlay = (videoID: string, state: boolean) => {
-    // setPlayingState(videoID, state);
-
-    if (state == true) {
-      setPlayingYTM({
-        title: Name || "Unknown Title",
-        link: `https://www.youtube.com/watch?v=${videoID}`,
-      });
-    }
-  };
-
   return (
     <Card>
       <CardHeader>{Name}</CardHeader>
       <ReactPlayer
-        playing={playing ?? undefined}
+        playing={playing}
         url={`https://www.youtube.com/watch?v=${videoID}`}
         width={"447px"}
         height={"245px"}
@@ -76,7 +62,7 @@ const YTMPlayer: React.FC<YTMProps> = ({
       {playingOrNah == false ? (
         <Button
           onClick={() => {
-            if (videoID) handlePlay(videoID, true);
+            setPlayingState(videoID, true);
           }}
         >
           Play
@@ -84,7 +70,7 @@ const YTMPlayer: React.FC<YTMProps> = ({
       ) : (
         <Button
           onClick={() => {
-            if (videoID) handlePlay(videoID, false);
+            setPlayingState(videoID, true);
           }}
         >
           Pause

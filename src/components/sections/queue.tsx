@@ -82,14 +82,10 @@ export default function Queue() {
     setPlayingOrNah,
     currentPlaybackDuration,
     setCurrentPlaybackDuration,
-    playingYTM,
-    setPlayingYTM,
   } = context;
 
   const newSongs: Song[] = useMemo(() => {
     if (!QDetails) return [];
-
-    let counter = 0;
 
     const spotifyData: SpotifyResponse = JSON.parse(QDetails);
 
@@ -121,6 +117,7 @@ export default function Queue() {
   }, [QDetails, setSongs]);
 
   const getQRe = async () => {
+    // yes yes i know ill change it later
     const data = await axios.get("https://api.spotify.com/v1/me/player/queue", {
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem("access_token")}`,
@@ -156,6 +153,8 @@ export default function Queue() {
       await timeSkippyBoi(timeLeft);
     }
   };
+
+  // need to periodically update the songs array
 
   const timeSkippyBoi = async (time: number) => {
     const wait = (ms: number) =>
@@ -272,14 +271,10 @@ export default function Queue() {
   useEffect(() => {
     const interval = setInterval(() => {
       getSpotifyCurrentDuration();
-    }, 1000);
+    }, 1000); // 20000 milliseconds = 20 seconds
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, [songs, timeLeft]);
-
-  useEffect(() => {
-    console.log(`Active platform changed to: ${activePlatform}`);
-  }, [songs, activePlatform]);
 
   return (
     <section className="flex">
@@ -317,13 +312,7 @@ export default function Queue() {
           </>
         ) : (
           <>
-            {playingYTM?.title}
-            <YTMPlayer
-              Name={playingYTM?.title || null}
-              videoID={playingYTM?.link || null}
-              playing={true}
-              setPlayingState={null}
-            ></YTMPlayer>
+            <p>Playing from YTM</p>
           </>
         )}
         <Button onClick={skipToNext}>Next</Button>
